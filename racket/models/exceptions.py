@@ -2,7 +2,11 @@ from sqlite3 import IntegrityError
 
 
 class NotInitializedError(Exception):
-    pass
+    ...
+
+
+class VersionError(Exception):
+    ...
 
 
 class DuplicateException(IntegrityError):

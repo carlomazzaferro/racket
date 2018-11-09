@@ -11,6 +11,7 @@ class MLModel(db.Model, SerialializableModel):
     major = db.Column(db.Integer)
     minor = db.Column(db.Integer)
     patch = db.Column(db.Integer)
+    version_dir = db.Column(db.String)
     active = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     type_id = db.Column(db.Integer, ForeignKey("MLModelType.type_id"))
@@ -25,7 +26,7 @@ class MLModelType(db.Model, SerialializableModel):
 class MLModelInputs(db.Model, SerialializableModel):
     __tablename__ = 'MLModelInputs'
     model_id = db.Column(db.Integer, ForeignKey('MLModel.model_id'), primary_key=True, index=True)
-    model_inputs = db.Column(db.JSON)
+    model_inputs = db.Column(db.Text)
 
 
 class ActiveModel(db.Model):
@@ -34,4 +35,9 @@ class ActiveModel(db.Model):
     model_id = db.Column(db.Integer, ForeignKey('MLModel.model_id'))
 
 
-
+class ModelScores(db.Model):
+    __tablename__ = 'ModelScores'
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    model_id = db.Column(db.Integer, ForeignKey('MLModel.model_id'), primary_key=False, index=True)
+    scoring_fn = db.Column(db.Text)
+    score = db.Column(db.Float)
