@@ -1,4 +1,44 @@
+import os
 
-
-TEMPLATE_PROJECT_FILES = []
 TEMPLATE_PROJECT_DIRS = []
+DATABASE_PATH = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'db.sqlite'))
+
+
+TEMPLATE_PROJECT_FILES = [
+    'template/.gitignore',
+    'template/docker-compose.yaml',
+    'template/Dockerfile',
+    'template/racket.yaml',
+    'template/classification.py'
+    'template/regression.py'
+]
+
+CONFIG_FILE_TEMPLATE = """
+version: 1
+
+logging:
+    level: INFO
+
+saved-models: 'serialized'
+
+# Dashboard config
+dashboard:
+    FLASK_SERVER_NAME: '0.0.0.0'
+    FLASK_SERVER_PORT: 8000
+    FLASK_DEBUG: True  # Do not use debug mode in production
+
+restplus:
+    RESTPLUS_SWAGGER_UI_DOC_EXPANSION: 'list'
+    RESTPLUS_VALIDATE: True
+    RESTPLUS_MASK_SWAGGER: False
+    RESTPLUS_ERROR_404_HELP: False
+
+# tf.txt client settings
+tensorflow:
+    TF_SERVER_NAME: '172.17.0.2'
+    TF_SERVER_PORT: 9000
+    TF_MODEL_NAME: 'default'
+    TF_MODEL_SIGNATURE_NAME: 'helpers'
+    TF_MODEL_INPUTS_KEY: 'states'
+
+"""

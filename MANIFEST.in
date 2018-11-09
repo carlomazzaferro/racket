@@ -8,4 +8,13 @@ recursive-include tests *
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
+recursive-include racket/*.py
+include racket/template/*
+include racket/web/build/*
+include racket/web/build/static/*
+include racket/web/build/static/css/*
+include racket/web/build/static/js/*
+include racket/web/build/static/media/*
+recursive-include requirements *.txt
+
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif

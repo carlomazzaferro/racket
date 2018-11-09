@@ -7,6 +7,7 @@ class Config:
     TESTING = False
     DEFAULT_FLASK_SERVER_NAME = '0.0.0.0'
     DEFAULT_FLASK_SERVER_PORT = 8000
+    SQLALCHEMY_TRACK_MODIFICATIONS = True
 
     # client settings
     DEFAULT_TF_SERVER_NAME = '172.17.0.2'
