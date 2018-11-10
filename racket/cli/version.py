@@ -3,7 +3,7 @@ import click
 import logging
 
 
-_logger = logging.getLogger('root')
+log = logging.getLogger('root')
 
 
 @click.command()

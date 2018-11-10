@@ -8,7 +8,7 @@ __author__ = "Carlo Mazzaferro"
 __copyright__ = "Carlo Mazzaferro"
 __license__ = "none"
 
-_logger = logging.getLogger('root')
+log = logging.getLogger('root')
 
 
 @click.command()
