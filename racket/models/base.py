@@ -29,12 +29,6 @@ class MLModelInputs(db.Model, SerialializableModel):
     model_inputs = db.Column(db.Text)
 
 
-class ActiveModel(db.Model):
-    __tablename__ = 'ActiveModel'
-    id = db.Column(db.Integer, index=True, primary_key=True)
-    model_id = db.Column(db.Integer, ForeignKey('MLModel.model_id'))
-
-
 class ModelScores(db.Model):
     __tablename__ = 'ModelScores'
     id = db.Column(db.Integer, primary_key=True, index=True)

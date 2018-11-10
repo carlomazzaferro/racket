@@ -5,6 +5,7 @@
 import click
 
 from racket.conf import setup_logging
+from racket.cli.init import init
 from racket.cli.serve import serve
 from racket.cli.version import version
 from racket.cli.dashboard import dashboard
@@ -23,6 +24,7 @@ def cli(context, verbose):
     setup_logging(verbose)
 
 
+cli.add_command(init)
 cli.add_command(version)
 cli.add_command(serve)
 cli.add_command(dashboard)

@@ -4,7 +4,7 @@ from racket.managers.server import ServerManager
 
 
 def get_or_create(table, column, column_id, value):
-    app = ServerManager.create_app('dev')
+    app = ServerManager.create_app('dev', False)
     with app.app_context():
         instance = db.session.query(getattr(table, column_id)).filter(getattr(table, column) == value).first()
     if instance:

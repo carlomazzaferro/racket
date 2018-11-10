@@ -1,29 +1,32 @@
-import os
 import abc
 import collections
-
-from racket.models import db
-from racket.models.helpers import get_or_create
-from racket.models.base import MLModel, ModelScores, MLModelType
-from racket.managers.learner import LearnerManager
 import logging
+import os
+
 import tensorflow.keras.backend as K
 from tensorflow.keras.models import model_from_json
 from tensorflow.python.saved_model import builder as saved_model_builder, tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
+from racket.managers.learner import LearnerManager
+from racket.managers.version import VersionManager
+from racket.models import db
+from racket.models.base import MLModel, ModelScores, MLModelType
+from racket.models.helpers import get_or_create
+from racket.operations.schema import activate, deactivate
+
 log = logging.getLogger('root')
 
 
 class Learner(abc.ABC):
-
-    VERSION = ''
+    VERSION = '0.0.1'
     MODEL_TYPE = ''
     MODEL_NAME = ''
 
     def __init__(self):
+        self.vm = VersionManager()
         self.lm = LearnerManager()
-        self.semantic, self.version_dir = self.lm.check_version(self.VERSION, self.MODEL_NAME)
+        self.semantic, self.version_dir = self.vm.check_version(self.VERSION, self.MODEL_NAME)
         self.major, self.minor, self.patch = [int(i) for i in self.semantic.split('.')]
         self.model_type = self.MODEL_TYPE
         self.model_name = self.MODEL_NAME
@@ -34,7 +37,6 @@ class Learner(abc.ABC):
     def model(self):
         raise NotImplementedError
 
-    @property
     def get_or_create_path(self) -> str:
         p = self.lm.get_path(self.model_name)
         if not os.path.exists(p):
@@ -43,12 +45,13 @@ class Learner(abc.ABC):
 
     @property
     def path(self) -> str:
-        return self.get_or_create_path
+        return self.get_or_create_path()
 
     @property
     def sql(self) -> MLModel:
         values = {k: getattr(self, k) for k in ['model_name', 'major', 'minor', 'patch', 'version_dir']}
         values['type_id'] = get_or_create(MLModelType, 'type_name', 'type_id', self.model_type)[0]
+        # noinspection PyArgumentList
         return MLModel(**values)
 
     @abc.abstractmethod
@@ -57,11 +60,11 @@ class Learner(abc.ABC):
 
     @abc.abstractmethod
     def store(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
     def build_model(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     @property
     def keras_json(self) -> str:
@@ -88,6 +91,10 @@ class KerasLearner(Learner):
         self._val_loss = latest_losses
         return self._val_loss
 
+    @property
+    def tf_path(self) -> str:
+        return os.path.join(self.path, self.version_dir)
+
     @historic_scores.setter
     def historic_scores(self, d):
         self._val_loss = d
@@ -102,12 +109,15 @@ class KerasLearner(Learner):
         return scores_
 
     def build_model(self):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def fit(self, x, y, *args, **kwargs):
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def store(self) -> None:
+        if os.path.exists(self.tf_path):
+            self.version_dir = self.vm.bump_disk(self.version_dir)
+
         with K.get_session() as sess:
             self._store_keras()
             self._store_tf(sess)
@@ -128,7 +138,7 @@ class KerasLearner(Learner):
         loaded_model = model_from_json(json_model_file)
         loaded_model.load_weights(self.keras_h5)
 
-        builder = saved_model_builder.SavedModelBuilder(os.path.join(self.path, self.version_dir))
+        builder = saved_model_builder.SavedModelBuilder(self.tf_path)
         signature = predict_signature_def(inputs={'x': loaded_model.input},
                                           outputs={'y': loaded_model.output})
 
@@ -140,16 +150,13 @@ class KerasLearner(Learner):
         log.info("Saved tf.txt model to disk")
 
     def _store_meta(self) -> None:
+        deactivate()
         sqlized = self.sql
         db.session.add(sqlized)
         db.session.commit()
-
+        activate()
         for scoring_function, score in self.historic_scores.items():
             obj = db.session.query(MLModel).order_by(MLModel.model_id.desc()).first()
             scoring_entry = ModelScores(model_id=obj.model_id, scoring_fn=scoring_function, score=score)
             db.session.add(scoring_entry)
         db.session.commit()
-
-
-
-
