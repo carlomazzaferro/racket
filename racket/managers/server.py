@@ -9,7 +9,6 @@ from racket.managers.project import ProjectManager
 
 
 class ServerManager(BaseConfigManager):
-
     # client settings
     DEFAULT_TF_SERVER_NAME = 'localhost'
     DEFAULT_TF_SERVER_PORT = 8501

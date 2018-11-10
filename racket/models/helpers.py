@@ -1,6 +1,5 @@
-
-from racket.models import db
 from racket.managers.server import ServerManager
+from racket.models import db
 
 
 def get_or_create(table, column, column_id, value):

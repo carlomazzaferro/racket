@@ -7,7 +7,6 @@ log = logging.getLogger('root')
 
 
 class LearnerManager(BaseConfigManager):
-
     CONFIG_FILE_NAME = 'racket.yaml'
     INPUT_KEYS = 'x'
     OUTPUT_KEYS = 'y'

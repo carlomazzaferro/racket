@@ -1,7 +1,8 @@
-import pkgutil
 import os
-from racket.managers.constants import TEMPLATE_PROJECT_FILES, TEMPLATE_PROJECT_DIRS, CONFIG_FILE_TEMPLATE
+import pkgutil
+
 from racket.managers.base import BaseConfigManager
+from racket.managers.constants import TEMPLATE_PROJECT_FILES, TEMPLATE_PROJECT_DIRS
 from racket.models.exceptions import NotInitializedError
 
 

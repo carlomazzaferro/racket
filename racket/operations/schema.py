@@ -1,10 +1,9 @@
 from sqlalchemy import desc
 from sqlalchemy.orm.exc import NoResultFound
 
+from racket.managers.server import ServerManager
 from racket.models import db
 from racket.models.base import MLModelInputs, MLModel
-
-from racket.managers.server import ServerManager
 
 
 def deactivate() -> None:
@@ -40,5 +39,3 @@ def determine_current_schema():
     with app.app_context():
         schema = db.session.query(MLModelInputs).filter(MLModelInputs.model_id == model).one()
     return schema.as_dict()
-
-

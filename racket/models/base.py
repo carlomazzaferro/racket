@@ -1,6 +1,7 @@
 import datetime
 
 from sqlalchemy.schema import ForeignKey
+
 from racket.models import SerialializableModel, db
 
 

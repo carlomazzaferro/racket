@@ -8,7 +8,6 @@ log = logging.getLogger('root')
 
 
 class Channel:
-
     host: str = 'localhost'
     port: str = '8500'
     channel = grpc.insecure_channel(host + ':' + port)
@@ -20,6 +19,3 @@ class Channel:
     @classmethod
     def prediction_channel(cls):
         return prediction_service_pb2_grpc.PredictionServiceStub(cls.channel)
-
-
-

@@ -9,7 +9,6 @@ log = logging.getLogger('root')
 
 
 class ModelLoader:
-
     channel = Channel.service_channel()
     request = model_management_pb2.ReloadConfigRequest()
     model_server_config = model_server_config_pb2.ModelServerConfig()

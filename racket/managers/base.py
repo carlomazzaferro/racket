@@ -1,7 +1,7 @@
+import logging
+import os
 
 import yaml
-import os
-import logging
 
 from racket.managers.constants import CONFIG_FILE_TEMPLATE
 

@@ -3,3 +3,4 @@ pytest-cov==2.6.0
 pytest-flask==0.13.0
 pytest-mock==1.10.0
 pytest-runner==4.2
+

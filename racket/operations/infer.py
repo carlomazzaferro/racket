@@ -11,7 +11,6 @@ log = logging.getLogger('root')
 
 
 class ServerTarget:
-
     channel = Channel.prediction_channel()
     request = predict_pb2.PredictRequest()
 
