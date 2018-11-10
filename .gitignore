@@ -102,7 +102,7 @@ ENV/
 .mypy_cache/
 
 # Intellij
-.idea
+.idea/
 
 
 # keras

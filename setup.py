@@ -12,11 +12,6 @@ with open('README.rst') as readme_file:
 with open('HISTORY.rst') as history_file:
     history = history_file.read()
 
-requirements = ['Click>=6.0',
-                'Flask==1.0.2',
-                'SQLAlchemy==1.2.13',
-                'Flask-SQLAlchemy==2.3.2']
-
 
 def strip_comments(l):
     return l.split('#', 1)[0].strip()
@@ -60,7 +55,7 @@ setup(
             'racket=racket.main:cli',
         ],
     },
-    install_requires=requirements,
+    install_requires=install_requires,
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
