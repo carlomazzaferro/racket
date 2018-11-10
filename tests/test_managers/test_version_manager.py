@@ -5,7 +5,7 @@ from racket.managers.version import VersionManager
 @pytest.fixture
 def vm():
     vm_ = VersionManager
-    return vm_
+    yield vm_
 
 
 def test_compare(vm):

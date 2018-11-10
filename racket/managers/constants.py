@@ -1,15 +1,11 @@
-import os
 
 TEMPLATE_PROJECT_DIRS = []
-DATABASE_PATH = os.path.realpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'db.sqlite'))
-
 
 TEMPLATE_PROJECT_FILES = [
     'template/.gitignore',
     'template/docker-compose.yaml',
     'template/Dockerfile',
-    'template/racket.yaml',
-    'template/classification.py'
+    'template/classification.py',
     'template/regression.py'
 ]
 
@@ -19,7 +15,17 @@ version: 1
 logging:
     level: INFO
 
+# Project Name
+name: 'racket-server'
+
+# Where to store your serialized models
 saved-models: 'serialized'
+
+
+# Database connection
+db: 
+    type: 'sqlite'
+    connection: 'sqlite.db'
 
 # Dashboard config
 dashboard:

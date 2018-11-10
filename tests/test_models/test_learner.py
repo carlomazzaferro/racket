@@ -11,7 +11,7 @@ from racket.models.base import MLModel
 from racket.models.learner import Learner, KerasLearner
 
 
-@pytest.fixture
+@pytest.fixture(scope='session')
 def instantiated_learner():
     class KerasModel(KerasLearner):
         VERSION = '1.2.1'
@@ -61,25 +61,25 @@ def test_concrete_methods(instantiated_learner):
     assert instantiated_learner.keras_h5 == p + '_1.h5'
     assert p in instantiated_learner.tf_path
 
+    assert instantiated_learner._val_loss is None
     instantiated_learner.historic_scores = 1
     assert instantiated_learner._val_loss == 1
+    shutil.rmtree('serialized')
 
 
 # noinspection PyProtectedMember
 def test_on_trained_model(instantiated_learner, sample_data):
     x_tr, x_te, y_tr, y_te = sample_data
 
-    assert instantiated_learner._val_loss is None
+    instantiated_learner._val_loss = None
     instantiated_learner.fit(x_tr, y_tr, x_val=x_te, y_val=y_te)
     assert isinstance(instantiated_learner.historic_scores, dict)
-    assert instantiated_learner._val_loss is not None
     ll = instantiated_learner.scores(x_te, y_te)
     assert isinstance(ll, dict)
     assert 'loss' in ll.keys()
 
     instantiated_learner.store()
     assert os.path.exists('serialized/keras-complex-lstm_1.h5')
-
     shutil.rmtree('serialized')
 
 
