@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+    tf-serving:
+        container_name: tf.txt-serving
+        volumes:
+          - ./serialized:/models
+        build:
+            context: .
+        ports:
+          - 8500:8500
+          - 8501:8501
+

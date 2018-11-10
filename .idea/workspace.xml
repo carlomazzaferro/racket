@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6284051d-d085-4c53-9ad4-2381b1db3edf" name="Default Changelist" comment="Models for Learner class, channels, and loaders">
+    <list default="true" id="6284051d-d085-4c53-9ad4-2381b1db3edf" name="Default Changelist" comment="Models refactoring after testing, and init project command">
+      <change afterPath="$PROJECT_DIR$/racket/cli/init.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/conf.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/conf.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/managers/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/managers/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/managers/constants.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/managers/constants.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/managers/learner.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/managers/learner.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/managers/project.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/managers/project.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/racket/managers/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/managers/server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/models/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/models/base.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/models/helpers.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/models/helpers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/models/learner.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/models/learner.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/operations/infer.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/operations/infer.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/racket/operations/schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/racket/operations/schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/setup.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_managers/test_version_manager.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_managers/test_version_manager.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_models/test_learner.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_models/test_learner.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -80,7 +72,7 @@
           <entry key="md" value="1" />
           <entry key="mlmodel" value="13" />
           <entry key="nodeids" value="1" />
-          <entry key="py" value="153" />
+          <entry key="py" value="155" />
           <entry key="pyi" value="1" />
           <entry key="rst" value="3" />
           <entry key="sql" value="1" />
@@ -97,7 +89,7 @@
           <entry key="Makefile" value="1" />
           <entry key="Markdown" value="1" />
           <entry key="PLAIN_TEXT" value="15" />
-          <entry key="Python" value="153" />
+          <entry key="Python" value="155" />
           <entry key="PythonStub" value="1" />
           <entry key="ReST" value="3" />
           <entry key="Scratch" value="1" />
@@ -111,16 +103,16 @@
           <entry key="dummy" value="25" />
           <entry key="gitignore" value="18" />
           <entry key="in" value="3" />
-          <entry key="py" value="12749" />
-          <entry key="txt" value="131" />
+          <entry key="py" value="12751" />
+          <entry key="txt" value="243" />
           <entry key="yaml" value="67" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="Ini" value="18" />
-          <entry key="PLAIN_TEXT" value="199" />
-          <entry key="Python" value="12749" />
+          <entry key="PLAIN_TEXT" value="311" />
+          <entry key="Python" value="12751" />
           <entry key="YAML" value="67" />
         </counts>
       </usages-collector>
@@ -202,15 +194,26 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/tests/test_models/test_learner.py">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="485">
-                  <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+                <state relative-caret-position="457">
+                  <caret line="86" column="50" lean-forward="true" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="50" />
                   <folding>
                     <element signature="e#0#9#0" expanded="true" />
-                    <marker date="1541828653282" expanded="true" signature="2265:2726" ph="..." />
-                    <marker date="1541828653282" expanded="true" signature="2760:2765" ph="..." />
+                    <marker date="1541828737159" expanded="true" signature="2265:2725" ph="..." />
+                    <marker date="1541828737159" expanded="true" signature="2759:2764" ph="..." />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/racket/operations/infer.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <folding>
+                    <element signature="e#0#14#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -237,18 +240,6 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/tests/conftest.py">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="39">
-                  <caret line="3" selection-start-line="3" selection-end-line="3" />
-                  <folding>
-                    <marker date="1541824495030" expanded="true" signature="279:284" ph="..." />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
         </leaf>
       </split-first>
       <split-second>
@@ -265,7 +256,7 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/racket/models/learner.py">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="690">
@@ -298,6 +289,17 @@
                   <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
                   <folding>
                     <element signature="e#0#14#0" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/racket/metrics.py">
+              <provider selected="true" editor-type-id="text-editor">
+                <state>
+                  <folding>
+                    <element signature="e#0#35#0" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -378,7 +380,6 @@
       <list>
         <option value="$PROJECT_DIR$/requirements_dev.txt" />
         <option value="$PROJECT_DIR$/racket/models/__init__.py" />
-        <option value="$PROJECT_DIR$/racket/operations/infer.py" />
         <option value="$PROJECT_DIR$/racket/server.py" />
         <option value="$PROJECT_DIR$/racket/api/train.py" />
         <option value="$PROJECT_DIR$/racket/api/serving.py" />
@@ -425,6 +426,7 @@
         <option value="$PROJECT_DIR$/racket/managers/server.py" />
         <option value="$PROJECT_DIR$/tests/test_managers/test_version_manager.py" />
         <option value="$PROJECT_DIR$/tests/test_models/test_learner.py" />
+        <option value="$PROJECT_DIR$/racket/operations/infer.py" />
       </list>
     </option>
   </component>
@@ -473,11 +475,6 @@
             <path>
               <item name="racket" type="b2602c69:ProjectViewProjectNode" />
               <item name="racket" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="racket" type="b2602c69:ProjectViewProjectNode" />
-              <item name="racket" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -580,7 +577,7 @@
       <option name="presentableId" value="Default" />
       <updated>1541136253972</updated>
       <workItem from="1541136255400" duration="29552000" />
-      <workItem from="1541804129681" duration="20535000" />
+      <workItem from="1541804129681" duration="20806000" />
     </task>
     <task id="LOCAL-00001" summary="Project and configuration set up">
       <created>1541732381542</created>
@@ -610,22 +607,30 @@
       <option name="project" value="LOCAL" />
       <updated>1541825921808</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Managers for server, learner, and config modules">
+      <created>1541828834146</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1541828834146</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58754000" />
+    <option name="totallyTimeSpent" value="59025000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-318" y="-1057" width="2265" height="1057" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11291048" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11291048" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info id="SciView" internal_type="SLIDING" order="5" weight="0.32928476" />
+      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.32953367" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -637,7 +642,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="SBT Console" order="10" weight="0.32920355" />
-      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49977508" visible="true" weight="0.38549224" />
+      <window_info anchor="bottom" id="Terminal" order="11" sideWeight="0.49977508" weight="0.38549224" />
       <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50022495" side_tool="true" weight="0.38549224" />
       <window_info anchor="bottom" id="Database Console" order="13" weight="0.32920355" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -689,7 +694,9 @@
     <MESSAGE value="Template project files" />
     <MESSAGE value="Models for Learner class, channels, and loaders" />
     <MESSAGE value="Cli and config" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cli and config" />
+    <MESSAGE value="Managers for server, learner, and config modules" />
+    <MESSAGE value="Models refactoring after testing, and init project command" />
+    <option name="LAST_COMMIT_MESSAGE" value="Models refactoring after testing, and init project command" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -703,9 +710,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/racket/cli/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/racket/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="208">
@@ -822,15 +826,6 @@
           <caret line="71" column="31" selection-start-line="71" selection-start-column="31" selection-end-line="71" selection-end-column="31" />
           <folding>
             <element signature="e#72#115#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/racket/metrics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-559">
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1013,16 +1008,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/racket/managers/version.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/racket/managers/project.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="650">
@@ -1067,6 +1052,19 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_managers/test_version_manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="104">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+            <marker date="1541828611141" expanded="true" signature="155:547" ph="..." />
+            <marker date="1541828611141" expanded="true" signature="470:547" ph="..." />
+            <marker date="1541828611141" expanded="true" signature="569:574" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/racket/models/learner.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="690">
@@ -1082,27 +1080,42 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_managers/test_version_manager.py">
+    <entry file="file://$PROJECT_DIR$/racket/managers/version.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="8" selection-start-line="8" selection-end-line="8" />
+        <state relative-caret-position="285">
+          <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
-            <marker date="1541828611141" expanded="true" signature="155:547" ph="..." />
-            <marker date="1541828611141" expanded="true" signature="470:547" ph="..." />
-            <marker date="1541828611141" expanded="true" signature="569:574" ph="..." />
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/racket/metrics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_models/test_learner.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="485">
-          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="457">
+          <caret line="86" column="50" lean-forward="true" selection-start-line="86" selection-start-column="50" selection-end-line="86" selection-end-column="50" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1541828653282" expanded="true" signature="2265:2726" ph="..." />
-            <marker date="1541828653282" expanded="true" signature="2760:2765" ph="..." />
+            <marker date="1541828737159" expanded="true" signature="2265:2725" ph="..." />
+            <marker date="1541828737159" expanded="true" signature="2759:2764" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/racket/operations/infer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
