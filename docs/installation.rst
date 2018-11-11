@@ -4,6 +4,16 @@
 Installation
 ============
 
+Requirements
+------------
+
+``racket`` is tested on python 3.6. It won't work in 3.7, as there is no TensorFlow release for
+this python version, and it probably won't work either on 3.5 since I use f-strings extensively.
+
+Contributions are more than welcome to make the project forward and backwards compatible!
+
+``docker`` and ``docker-compose`` are also requried. Reasonably up-to-date version should do it.
+
 
 Stable release
 --------------
