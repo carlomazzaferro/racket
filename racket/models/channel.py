@@ -8,6 +8,10 @@ log = logging.getLogger('root')
 
 
 class Channel:
+    """
+    A gRPC channel implementation
+    """
+
     host: str = 'localhost'
     port: str = '8500'
     channel = grpc.insecure_channel(host + ':' + port)

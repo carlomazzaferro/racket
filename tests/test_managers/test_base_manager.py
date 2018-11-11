@@ -59,7 +59,7 @@ def test_project_manager():
 
     ProjectManager.set_path('tests/sample_project-2')
     ProjectManager.create_subdirs()
-    assert os.path.exists('tests/sample_project-2') is False
+    assert os.path.exists('tests/sample_project-2') is True
 
     ProjectManager.set_path('tests/sample_project')
     ProjectManager.create_template()

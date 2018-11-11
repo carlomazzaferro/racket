@@ -9,13 +9,17 @@ log = logging.getLogger('root')
 
 
 class ModelLoader:
+    """
+    This class provides the interface to load new models into TensorFlow Serving. This is implemented through a
+    gRPC call to the TFS api which triggers it to look for directories matching the name of the model specified
+    """
     channel = Channel.service_channel()
     request = model_management_pb2.ReloadConfigRequest()
     model_server_config = model_server_config_pb2.ModelServerConfig()
     conf = model_server_config_pb2.ModelConfigList()
 
     @classmethod
-    def set_config(cls, model_name):
+    def set_config(cls, model_name: str) -> None:
         config = cls.conf.config.add()
         config.name = model_name
         config.base_path = '/models/' + model_name
@@ -24,13 +28,39 @@ class ModelLoader:
         cls.request.config.CopyFrom(cls.model_server_config)
 
     @classmethod
-    def load(cls, model_name):
-        cls.set_config(model_name)
+    def load(cls, model_name: str) -> None:
+        """Load model
 
-        log.info(cls.request.IsInitialized())
-        log.info(cls.request.ListFields())
+        This will send the gRPC request. In particular, it will open a gRPC channel and communicate with the
+        ReloadConfigRequest api to inform TFS of a change in configuration
 
-        response = cls.channel.HandleReloadConfigRequest(cls.request, 10)
+        Parameters
+        ----------
+        model_name : str
+            Name of the model, as specified in the instantiated Learner class
+
+        Returns
+        -------
+        None
+        """
+        channel = Channel.service_channel()
+        request = model_management_pb2.ReloadConfigRequest()
+        model_server_config = model_server_config_pb2.ModelServerConfig()
+        conf = model_server_config_pb2.ModelConfigList()
+
+        config = conf.config.add()
+        config.name = model_name
+        config.base_path = '/models/' + model_name
+        config.model_platform = 'tensorflow'
+        model_server_config.model_config_list.CopyFrom(conf)
+        request.config.CopyFrom(model_server_config)
+
+        # cls.set_config(model_name)
+
+        log.info(request.IsInitialized())
+        log.info(request.ListFields())
+
+        response = channel.HandleReloadConfigRequest(request, 10)
         if response.status.error_code == 0:
             log.info(f'Loaded model {model_name} successfully')
         else:
@@ -38,4 +68,4 @@ class ModelLoader:
 
 
 if __name__ == '__main__':
-    ModelLoader.load('keras-simple-lstm')
+    ModelLoader.load('keras-complex-lstm')

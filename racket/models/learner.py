@@ -11,12 +11,12 @@ from tensorflow.python.saved_model import builder as saved_model_builder, tag_co
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
 from racket.managers.learner import LearnerManager
-from racket.managers.version import VersionManager
 from racket.managers.server import ServerManager
-
+from racket.managers.version import VersionManager
 from racket.models import db
 from racket.models.base import MLModel, ModelScores, MLModelType
 from racket.models.helpers import get_or_create
+from racket.operations.load import ModelLoader
 from racket.operations.schema import activate, deactivate
 
 log = logging.getLogger('root')
@@ -227,8 +227,8 @@ class KerasLearner(Learner):
         Stores the model in three different ways/patterns:
 
         1. Keras serialization, that is a json + h5 object, from which it can be loaded into a TensorFlow session
-        2. TensroFlow protocol buffer + variables. That is the canonical TensorFlow way of storing models
-        3. Metadara, scores, and info about the model are stored in a relational database for tracking purposes
+        2. TensorFlow protocol buffer + variables. That is the canonical TensorFlow way of storing models
+        3. Metadata, scores, and info about the model are stored in a relational database for tracking purposes
 
         Returns
         -------
@@ -242,6 +242,7 @@ class KerasLearner(Learner):
             self._store_keras()
             self._store_tf(sess)
             self._store_meta()
+            ModelLoader.load(self.model_name)
 
     def _store_keras(self) -> None:
         K.set_learning_phase(0)  # prevent model from modifying weights
