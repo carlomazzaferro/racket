@@ -9,10 +9,10 @@ from racket.models.exceptions import NotInitializedError
 class ProjectManager(BaseConfigManager):
     """Manages project configuration racket.yaml file."""
 
-    IS_GLOBAL = False
-    RACKET_DIR = None
-    CONFIG_FILE_NAME = 'racket.yaml'
-    CONFIG = None
+    IS_GLOBAL: bool = False
+    RACKET_DIR: str = None
+    CONFIG_FILE_NAME: str = 'racket.yaml'
+    CONFIG: dict = None
 
     @classmethod
     def set_path(cls, path: str) -> None:

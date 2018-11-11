@@ -2,14 +2,18 @@ import abc
 import collections
 import logging
 import os
+from typing import Iterable
 
 import tensorflow.keras.backend as K
+from tensorflow.keras import Sequential
 from tensorflow.keras.models import model_from_json
 from tensorflow.python.saved_model import builder as saved_model_builder, tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
 from racket.managers.learner import LearnerManager
 from racket.managers.version import VersionManager
+from racket.managers.server import ServerManager
+
 from racket.models import db
 from racket.models.base import MLModel, ModelScores, MLModelType
 from racket.models.helpers import get_or_create
@@ -19,6 +23,33 @@ log = logging.getLogger('root')
 
 
 class Learner(abc.ABC):
+    """
+    Abstract Base Class for any learner implemented (currently Keras only, but more are planned).
+
+    Note
+    ----
+    This as an abstract class and cannot be instantiated
+
+    Attributes
+    ----------
+    semantic: str
+        Semantic representation of the model version
+    major : int
+        Major version of the learner
+    minor: int
+        Minor version of the learner
+    patch: int
+        Patch version of the learner
+    model_name: str
+        Name of the model
+    model_type: str
+        Type of the model, either regression or classification
+    _model: Any
+        The instantiated model, such as a Keras compiled model
+    _val_loss: dict
+        Validation loss of the model according to the metrics defined in its implementation
+
+    """
     VERSION = '0.0.1'
     MODEL_TYPE = ''
     MODEL_NAME = ''
@@ -45,10 +76,23 @@ class Learner(abc.ABC):
 
     @property
     def path(self) -> str:
+        """Path on disk of the model
+        Returns
+        -------
+        str
+        """
+
         return self.get_or_create_path()
 
     @property
     def sql(self) -> MLModel:
+        """SQLized representation of model metadata
+
+        Returns
+        -------
+        MLModel
+            The SQLAlchemy representation of the model
+        """
         values = {k: getattr(self, k) for k in ['model_name', 'major', 'minor', 'patch', 'version_dir']}
         values['type_id'] = get_or_create(MLModelType, 'type_name', 'type_id', self.model_type)[0]
         # noinspection PyArgumentList
@@ -76,9 +120,19 @@ class Learner(abc.ABC):
 
 
 class KerasLearner(Learner):
+    """
+    Base class providing functionality for training & storing a model
+    """
 
     @property
-    def model(self):
+    def model(self) -> Sequential:
+        """
+        Returns
+        -------
+        Sequential
+            The compiled model
+        """
+
         return self._model
 
     def get_last_loss(self) -> dict:
@@ -87,19 +141,50 @@ class KerasLearner(Learner):
 
     @property
     def historic_scores(self) -> dict:
+        """Only available when model has been fit. Provides access to the latest validation scores
+
+        Returns
+        -------
+        dict
+            Dictionary of metric scores ``{metric: score}``
+        """
+
         latest_losses = self._val_loss or self.get_last_loss()
         self._val_loss = latest_losses
         return self._val_loss
 
     @property
     def tf_path(self) -> str:
+        """On disk path of the TensorFlow serialized model
+        Returns
+        -------
+        str
+        """
+
         return os.path.join(self.path, self.version_dir)
 
     @historic_scores.setter
-    def historic_scores(self, d):
+    def historic_scores(self, d: dict) -> None:
         self._val_loss = d
 
-    def scores(self, x, y) -> dict:
+    def scores(self, x: Iterable, y: Iterable) -> object:
+        """Evaluate scores on a test set
+
+        Parameters
+        ----------
+        x : array_like
+            A numpy array, or matrix that serves as input to the model. Must have matching dimensions
+            to the model input specs
+
+        y : array_like
+            the targets for the input data
+
+        Returns
+        -------
+        dict
+            Dictionary of metric scores ``{metric: score}`` evaluated on the test set
+        """
+
         score = self.model.evaluate(x, y)
         if isinstance(score, collections.Iterable):
             scores_ = dict(zip(self.model.metrics_names, score))
@@ -109,12 +194,47 @@ class KerasLearner(Learner):
         return scores_
 
     def build_model(self):
+        """
+        Abstract method. Must be overridden.
+        Raises: ``NotImplementedError`` if called from base class
+        """
+
         raise NotImplementedError  # pragma: no cover
 
     def fit(self, x, y, *args, **kwargs):
+        """
+        Abstract method. Must be overridden. \
+        Raises: ``NotImplementedError`` if called from base class
+
+        Parameters
+        ----------
+        x : array_like
+            a numpy array, or matrix that serves as input to the model. Must have matching dimensions to the model input specs
+
+        y : array_like
+            the targets for the input data
+
+        args
+            Other parameters to be fed to the model
+        kwargs
+            Other parameters to be fed to the model
+        """
+
         raise NotImplementedError  # pragma: no cover
 
     def store(self) -> None:
+        """
+        Stores the model in three different ways/patterns:
+
+        1. Keras serialization, that is a json + h5 object, from which it can be loaded into a TensorFlow session
+        2. TensroFlow protocol buffer + variables. That is the canonical TensorFlow way of storing models
+        3. Metadara, scores, and info about the model are stored in a relational database for tracking purposes
+
+        Returns
+        -------
+        None
+        """
+
         if os.path.exists(self.tf_path):
             self.version_dir = self.vm.bump_disk(self.version_dir)
 
@@ -150,13 +270,15 @@ class KerasLearner(Learner):
         log.info("Saved tf.txt model to disk")
 
     def _store_meta(self) -> None:
-        deactivate()
-        sqlized = self.sql
-        db.session.add(sqlized)
-        db.session.commit()
-        activate()
-        for scoring_function, score in self.historic_scores.items():
-            obj = db.session.query(MLModel).order_by(MLModel.model_id.desc()).first()
-            scoring_entry = ModelScores(model_id=obj.model_id, scoring_fn=scoring_function, score=score)
-            db.session.add(scoring_entry)
-        db.session.commit()
+        app = ServerManager.create_app('dev', False)
+        with app.app_context():
+            deactivate()
+            sqlized = self.sql
+            db.session.add(sqlized)
+            db.session.commit()
+            activate()
+            for scoring_function, score in self.historic_scores.items():
+                obj = db.session.query(MLModel).order_by(MLModel.model_id.desc()).first()
+                scoring_entry = ModelScores(model_id=obj.model_id, scoring_fn=scoring_function, score=score)
+                db.session.add(scoring_entry)
+            db.session.commit()

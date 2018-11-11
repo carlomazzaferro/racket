@@ -56,7 +56,7 @@ class VersionManager:
         return '.'.join([str(version.major), str(version.minor), str(version.patch)]), version.version_dir
 
     @classmethod
-    def compare(cls, v, vv):
+    def compare(cls, v: str, vv: str) -> str:
         sv, svv = StrictVersion(v), StrictVersion(vv)
         if sv > svv:
             return 'GT'

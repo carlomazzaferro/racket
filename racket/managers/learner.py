@@ -7,10 +7,10 @@ log = logging.getLogger('root')
 
 
 class LearnerManager(BaseConfigManager):
-    CONFIG_FILE_NAME = 'racket.yaml'
-    INPUT_KEYS = 'x'
-    OUTPUT_KEYS = 'y'
-    PLATFORM = 'tensorflow'
+    CONFIG_FILE_NAME: str = 'racket.yaml'
+    INPUT_KEYS: str = 'x'
+    OUTPUT_KEYS: str = 'y'
+    PLATFORM: str = 'tensorflow'
 
     @classmethod
     def get_path(cls, name: str) -> str:

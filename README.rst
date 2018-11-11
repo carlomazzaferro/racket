@@ -7,7 +7,7 @@ racket
         :target: https://pypi.python.org/pypi/racket
 
 .. image:: https://img.shields.io/travis/carlomazzaferro/racket.svg
-        :target: https://travis-ci.org/carlomazzaferro/racket
+        :target: https://travis-ci.com/carlomazzaferro/racket
 
 .. image:: https://readthedocs.org/projects/racket/badge/?version=latest
         :target: https://racket.readthedocs.io/en/latest/?badge=latest

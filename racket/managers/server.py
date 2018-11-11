@@ -10,12 +10,12 @@ from racket.managers.project import ProjectManager
 
 class ServerManager(BaseConfigManager):
     # client settings
-    DEFAULT_TF_SERVER_NAME = 'localhost'
-    DEFAULT_TF_SERVER_PORT = 8501
-    TF_MODEL_NAME = 'default'
-    TF_MODEL_SIGNATURE_NAME = 'helpers'
-    TF_MODEL_INPUTS_KEY = 'states'
-    PREDICTION_TIMEOUT = 10
+    DEFAULT_TF_SERVER_NAME: str = 'localhost'
+    DEFAULT_TF_SERVER_PORT: int = 8501
+    TF_MODEL_NAME: str = 'default'
+    TF_MODEL_SIGNATURE_NAME: str = 'helpers'
+    TF_MODEL_INPUTS_KEY: str = 'states'
+    PREDICTION_TIMEOUT: int = 10
 
     @classmethod
     def create_db(cls, database: SQLAlchemy, clean: bool) -> None:

@@ -2,6 +2,7 @@ import click
 import logging
 
 from racket.models import db
+from racket.managers.server import ServerManager
 from racket.models.base import MLModel
 
 __author__ = "Carlo Mazzaferro"
@@ -28,8 +29,10 @@ def serve(model_id, model_name, version):
         version:
     Returns:
     """
+    app = ServerManager.create_app('dev', False)
     version = version.split('.')
     filter_on = ('model_id', model_id) if model_id else ('model_name', model_name)
-    servable = db.session.query(MLModel).filter(getattr(MLModel, filter_on[0]) == filter_on[1])
+    with app.app_context():
+        servable = db.session.query(MLModel).filter(getattr(MLModel, filter_on[0]) == filter_on[1])
     servable.copy_to_container()
     servable.serve()

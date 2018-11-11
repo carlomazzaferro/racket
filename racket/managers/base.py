@@ -1,3 +1,4 @@
+from typing import Union, Optional
 import logging
 import os
 
@@ -13,13 +14,13 @@ class BaseConfigManager(object):
         Based on the amazing github.com/polyaxon/polyaxon config manager setup
     """
 
-    IS_GLOBAL = False
-    RACKET_DIR = None
-    CONFIG_FILE_NAME = None
-    CONFIG = None
+    IS_GLOBAL: str = False
+    RACKET_DIR: str = None
+    CONFIG_FILE_NAME: str = None
+    CONFIG: dict = None
 
     @staticmethod
-    def create_dir(dir_path):
+    def create_dir(dir_path: str) -> None:
         if not os.path.exists(dir_path):
             try:
                 os.makedirs(dir_path)
@@ -29,7 +30,7 @@ class BaseConfigManager(object):
                 log.error('Could not create config directory `%s`', dir_path)
 
     @classmethod
-    def get_config_file_path(cls):
+    def get_config_file_path(cls) -> str:
         if not cls.RACKET_DIR:
             # local to this directory
             base_path = os.path.join('.')
@@ -38,16 +39,16 @@ class BaseConfigManager(object):
         return os.path.join(base_path, cls.CONFIG_FILE_NAME)
 
     @classmethod
-    def init_config(cls, init=None):
+    def init_config(cls, init: Union[str, bool] = None) -> None:
         cls.set_config(init=init)
 
     @classmethod
-    def is_initialized(cls):
+    def is_initialized(cls) -> bool:
         config_file_path = cls.get_config_file_path()
         return os.path.isfile(config_file_path)
 
     @classmethod
-    def set_config(cls, init=False):
+    def set_config(cls, init: Union[str, bool] = False) -> None:
         config_file_path = cls.get_config_file_path()
 
         if os.path.isfile(config_file_path) and init:
@@ -63,7 +64,7 @@ class BaseConfigManager(object):
             cls.CONFIG['saved-models'] = os.path.join(cls.RACKET_DIR, cls.CONFIG['saved-models'])
 
     @classmethod
-    def get_config(cls):
+    def get_config(cls) -> Optional[dict]:
         if not cls.is_initialized():
             return None
         config_file_path = cls.get_config_file_path()
@@ -71,7 +72,7 @@ class BaseConfigManager(object):
             return yaml.safe_load(config_file)
 
     @classmethod
-    def get_value(cls, key):
+    def get_value(cls, key: str) -> Union[Optional[str], Optional[dict]]:
         config = cls.get_config()
         if config:
             if key in config.keys():
@@ -80,3 +81,5 @@ class BaseConfigManager(object):
                 log.warning("Config `%s` has no key `%s`", cls.CONFIG.__name__, key)
 
         return None
+
+

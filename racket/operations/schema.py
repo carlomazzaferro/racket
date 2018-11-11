@@ -26,14 +26,28 @@ def activate() -> None:
         db.session.commit()
 
 
-def active_model():
+def active_model() -> str:
+    """
+    Query the model id of the currently active model
+    Returns
+    -------
+    str
+        Unique model identifier
+    """
+
     app = ServerManager.create_app('dev', False)
     with app.app_context():
         active = db.session.query(MLModel.active == True).one()  # NOQA
     return active[0].model_id
 
 
-def determine_current_schema():
+def determine_current_schema() -> dict:
+    """
+    Get the input specification of the currently active model
+    Returns
+    -------
+    dict: dictionary of the specs
+    """
     app = ServerManager.create_app('dev', False)
     model = active_model()
     with app.app_context():
