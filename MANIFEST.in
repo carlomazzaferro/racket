@@ -6,6 +6,11 @@ include README.rst
 
 recursive-include racket/*.py
 include racket/template/*
+include racket/template/serialized/*
+include racket/template/serialized/base/*
+include racket/template/serialized/base/1/*
+include racket/template/serialized/base/1/variables/*
+
 include racket/web/build/*
 include racket/web/build/static/*
 include racket/web/build/static/css/*

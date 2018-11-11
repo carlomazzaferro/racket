@@ -6,16 +6,10 @@ from racket.models.learner import KerasLearner
 from sklearn.model_selection import train_test_split
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import SimpleRNN, Dense
+from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.metrics import mse
 from time import time
-
-from tensorflow_serving.apis import model_service_pb2
-from tensorflow_serving.apis import model_service_pb2_grpc
-from tensorflow_serving.config import model_server_config_pb2
-from tensorflow_serving.util import status_pb2
-from tensorflow_serving.apis import model_management_pb2
 
 
 tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
@@ -23,9 +17,9 @@ tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 
 class KerasModel(KerasLearner):
 
-    VERSION = '1.2.1'
+    VERSION = '0.1.0'
     MODEL_TYPE = 'regression'
-    MODEL_NAME = 'keras-complex-lstm'
+    MODEL_NAME = 'base'
 
     def build_model(self):
         optimizer = tf.train.RMSPropOptimizer(0.001)

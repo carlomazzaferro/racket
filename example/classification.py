@@ -23,7 +23,7 @@ tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 class KerasModel(KerasLearner):
 
     VERSION = '1.0.0'
-    MODEL_TYPE = 'regression'
+    MODEL_TYPE = 'base'
     MODEL_NAME = 'keras-simple-lstm'
 
     def build_model(self):

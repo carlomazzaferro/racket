@@ -28,11 +28,21 @@ class VersionManager:
 
     @classmethod
     def bump_version(cls, semantic: str) -> str:
-        return semantic[0:-1] + cls.bump_disk(semantic[-1])
+        vvv = cls.split_(semantic)
+        return cls.join_([vvv[0], vvv[1], str(cls.bump_disk(vvv[-1]))])
+
+    @classmethod
+    def split_(cls, v):
+        return v.split('.')
+
+    @classmethod
+    def join_(cls, vvv):
+        return '.'.join([str(i) for i in vvv])
 
     @classmethod
     def decr_version(cls, semantic: str) -> str:
-        return semantic[0:-1] + cls.decr_disk(semantic[-1])
+        vvv = cls.split_(semantic)
+        return cls.join_([vvv[0], vvv[1], str(cls.decr_disk(vvv[-1]))])
 
     @classmethod
     def bump_disk(cls, v: str) -> str:
@@ -57,6 +67,8 @@ class VersionManager:
 
     @classmethod
     def compare(cls, v: str, vv: str) -> str:
+        if any(['-1' in cls.split_(p) for p in [v, vv]]):
+            v, vv = cls.bump_version(v), cls.bump_version(vv)
         sv, svv = StrictVersion(v), StrictVersion(vv)
         if sv > svv:
             return 'GT'

@@ -1,11 +1,18 @@
-TEMPLATE_PROJECT_DIRS = []
+TEMPLATE_PROJECT_DIRS = [
+    'serialized/base/1/variables/'
+]
 
 TEMPLATE_PROJECT_FILES = [
     'template/.gitignore',
     'template/docker-compose.yaml',
     'template/Dockerfile',
     'template/classification.py',
-    'template/regression.py'
+    'template/regression.py',
+    'template/serialized/base/1/variables/variables.data-00000-of-00001',
+    'template/serialized/base/1/variables/variables.index',
+    'template/serialized/base/1/saved_model.pb',
+    'template/serialized/base_1.h5',
+    'template/serialized/base_1.json',
 ]
 
 CONFIG_FILE_TEMPLATE = """

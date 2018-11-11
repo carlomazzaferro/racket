@@ -19,6 +19,7 @@ def init(name: str, path: str) -> None:
         ProjectManager.create_dir(project_path)
         ProjectManager.set_path(project_path)
         ProjectManager.init_project(name)
+        ProjectManager.create_db()
 
 
 def safe_init(project_path: str, name: str) -> None:

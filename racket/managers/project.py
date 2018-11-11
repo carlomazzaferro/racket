@@ -1,5 +1,6 @@
 import os
 import pkgutil
+from datetime import datetime
 
 from racket.managers.base import BaseConfigManager
 from racket.managers.constants import TEMPLATE_PROJECT_FILES, TEMPLATE_PROJECT_DIRS
@@ -29,8 +30,13 @@ class ProjectManager(BaseConfigManager):
         for file in TEMPLATE_PROJECT_FILES:
             data = pkgutil.get_data('racket', file)
             file_path = file.replace('template/', '')
-            with open(os.path.join(cls.RACKET_DIR, file_path), 'w') as f:
-                f.write(data.decode('utf-8'))
+            print(file_path, 'PATHHHH')
+            try:
+                with open(os.path.join(cls.RACKET_DIR, file_path), 'w') as f:
+                    f.write(data.decode('utf-8'))
+            except UnicodeDecodeError:
+                with open(os.path.join(cls.RACKET_DIR, file_path), 'wb') as f:
+                    f.write(data)
 
     @classmethod
     def create_subdirs(cls) -> None:
@@ -46,8 +52,32 @@ class ProjectManager(BaseConfigManager):
 
     @classmethod
     def db_path(cls) -> str:
+        if cls.RACKET_DIR not in os.getcwd():
+            db_dir = os.path.join(os.path.join(os.getcwd(), cls.RACKET_DIR))
+        else:
+            db_dir = os.getcwd()
         db = cls.get_value('db')
         if db['type'] == 'sqlite':
-            return 'sqlite:///' + os.path.join(os.getcwd(), db['connection'])
+            return 'sqlite:///' + os.path.join(db_dir, db['connection'])
         else:
             return db['connection']
+
+    # noinspection PyArgumentList
+    @classmethod
+    def create_db(cls) -> None:
+        from racket.managers.server import ServerManager
+        from racket.models import db
+        from racket.models.base import MLModel, ModelScores, MLModelType
+
+        m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1, active=True,
+                    created_at=datetime.now(), type_id=1)
+        t = MLModelType(type_id=1, type_name='regression')
+        s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
+        mse = ModelScores(id=2, model_id=1, scoring_fn='mean_squared_error', score=9378.2468363119)
+        app = ServerManager.create_app('dev', True)
+        with app.app_context():
+            db.session.add(m)
+            db.session.add(t)
+            db.session.add(s)
+            db.session.add(mse)
+        db.session.commit()

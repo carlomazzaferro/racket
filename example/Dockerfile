@@ -46,7 +46,7 @@ ENV MODEL_BASE_PATH=/models
 RUN mkdir -p ${MODEL_BASE_PATH}
 
 # The only required piece is the model name in order to differentiate endpoints
-ENV MODEL_NAME=keras-simple-lstm
+ENV MODEL_NAME=base
 
 # Create a script that runs the model server so we can use environment variables
 # while also passing in arguments from the docker command line
