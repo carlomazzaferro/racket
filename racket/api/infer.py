@@ -1,10 +1,21 @@
+import numpy
+from flask import request, jsonify
 from flask_restplus import Namespace, Resource, fields
 
+from racket.operations.infer import ServerTarget
+from racket.operations.schema import active_model
+
 infer_ns = Namespace('infer', description='Inference endpoint')
-vh = infer_ns.model('infer', {'max': fields.Integer, 'available_only': fields.Boolean})
+ts = infer_ns.model('infer', {'input': fields.Raw})
 
 
 @infer_ns.route('/')
 class Inference(Resource):
+
+    @infer_ns.expect(ts)
     def post(self):
-        pass
+        req = request.get_json()
+        model_name = active_model(name=True)
+        predictions = ServerTarget.predict(model_name, numpy.array(req['input']))
+        return jsonify({'predictions': predictions['result'].tolist()})
+

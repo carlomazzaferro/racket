@@ -44,9 +44,12 @@ Features
 * Ability to deploy automatically different models with a single command
 * Model introspection: ability to view model performance and input requirements through a web-ui
 
-Demo:
+Demo
+====
 
+.. raw:: html
 
+    <a href="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
 
 Credits
 -------

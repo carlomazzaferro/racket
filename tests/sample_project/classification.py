@@ -9,8 +9,6 @@ from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.optimizers import Adam
 
 from tensorflow.python.keras import utils
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
 from sklearn.preprocessing import LabelEncoder
 
 
@@ -24,7 +22,7 @@ class KerasModel(KerasLearner):
 
     VERSION = '1.0.0'
     MODEL_TYPE = 'regression'
-    MODEL_NAME = 'keras-simole-lstm'
+    MODEL_NAME = 'keras-simple-regression'
 
     def build_model(self):
         adam = Adam(lr=0.1, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.01, amsgrad=False)

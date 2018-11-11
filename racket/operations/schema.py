@@ -26,7 +26,7 @@ def activate() -> None:
         db.session.commit()
 
 
-def active_model() -> str:
+def active_model(name: bool = None) -> str:
     """
     Query the model id of the currently active model
     Returns
@@ -37,7 +37,10 @@ def active_model() -> str:
 
     app = ServerManager.create_app('dev', False)
     with app.app_context():
-        active = db.session.query(MLModel.active == True).one()  # NOQA
+        active = db.session.query(MLModel).filter(MLModel.active == True).one()  # NOQA
+        if name:
+            active = db.session.query(MLModel.model_name).filter(MLModel.model_id == active.model_id).one()
+            return active[0]
     return active[0].model_id
 
 

@@ -30,7 +30,6 @@ class ProjectManager(BaseConfigManager):
         for file in TEMPLATE_PROJECT_FILES:
             data = pkgutil.get_data('racket', file)
             file_path = file.replace('template/', '')
-            print(file_path, 'PATHHHH')
             try:
                 with open(os.path.join(cls.RACKET_DIR, file_path), 'w') as f:
                     f.write(data.decode('utf-8'))
