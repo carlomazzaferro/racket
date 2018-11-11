@@ -2,35 +2,40 @@
 racket
 ======
 
+.. image:: https://travis-ci.com/carlomazzaferro/racket.svg?token=6AsKrC8jkbpeAsBBbVut&branch=master
+
 
 .. image:: https://img.shields.io/pypi/v/racket.svg
         :target: https://pypi.python.org/pypi/racket
 
-.. image:: https://img.shields.io/travis/carlomazzaferro/racket.svg
-        :target: https://travis-ci.com/carlomazzaferro/racket
-
-.. image:: https://readthedocs.org/projects/racket/badge/?version=latest
-        :target: https://racket.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
+.. image:: https://readthedocs.com/projects/r-racket/badge/?version=latest
+    :target: https://r-racket.readthedocs-hosted.com/en/latest/?badge=latest
+    :alt: Documentation Status
 
 .. image:: https://pyup.io/repos/github/carlomazzaferro/racket/shield.svg
      :target: https://pyup.io/repos/github/carlomazzaferro/racket/
      :alt: Updates
 
 
-
-Serve models with confidence
+Serve models with confidence.
 
 
 * Free software: GNU General Public License v3
 * Documentation: https://racket.readthedocs.io.
 
 
+Overview
+--------
+
+Let's face it. Building models is already challenging enough. But putting them into production is
+usually a big enough challenge to grant the employment of an entire separate team. The goal of
+the project is removing (or at least softening) the dependency on machine learning engineers and devops,
+enabling data scientist to go from concept to production in minutes.
+
 Features
 --------
 
-* TODO
+* Easy
 
 Credits
 -------

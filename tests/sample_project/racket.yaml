@@ -4,7 +4,7 @@ logging:
     level: INFO
 
 # Project Name
-name: 'example'
+name: 'sample_project'
 
 # Where to store your serialized models
 saved-models: 'serialized'
