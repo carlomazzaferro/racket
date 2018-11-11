@@ -52,8 +52,9 @@ class ProjectManager(BaseConfigManager):
 
     @classmethod
     def db_path(cls) -> str:
-        if cls.RACKET_DIR not in os.getcwd():
-            db_dir = os.path.join(os.path.join(os.getcwd(), cls.RACKET_DIR))
+        if cls.RACKET_DIR is not None:
+            if cls.RACKET_DIR not in os.getcwd():
+                db_dir = os.path.join(os.path.join(os.getcwd(), cls.RACKET_DIR))
         else:
             db_dir = os.getcwd()
         db = cls.get_value('db')
