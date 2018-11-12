@@ -8,7 +8,6 @@ from racket.models.exceptions import NotInitializedError
 
 
 def test_default():
-    assert BaseConfigManager.IS_GLOBAL is False
     assert BaseConfigManager.RACKET_DIR is None
     assert BaseConfigManager.CONFIG_FILE_NAME is None
     assert BaseConfigManager.CONFIG is None
