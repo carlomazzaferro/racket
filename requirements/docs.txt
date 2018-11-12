@@ -1,1 +1,2 @@
 sphinx-rtd-theme==0.4.2
+sphinx-click==1.4.1

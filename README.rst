@@ -39,13 +39,18 @@ Features
 
 * Easy integration with TensorFlow Serving and Keras
 * RESTful interface with interactive Swagger documentation
+* Model introspection: ability to view model performance and input requirements
+* Ability to deploy automatically different models with a single command
 * Rich CLI capabilities, going from project scaffolding to training, serving, and dashboarding
 * Small codebase, statically typed, and extensive docstrings
-* Ability to deploy automatically different models with a single command
-* Model introspection: ability to view model performance and input requirements through a web-ui
+* **Coming Soon** :sup:`TM`: Web-ui for managing, introspecting, and deploying models.
+
+
+
+.. _DemoVideo:
 
 Demo
-====
+----
 
 .. raw:: html
 

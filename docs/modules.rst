@@ -2,6 +2,17 @@
 Module Index
 ============
 
+Racket's CLI
+------------
+
+.. click:: racket.main:cli
+    :prog: racket
+    :show-nested:
+
+
+Internals
+---------
+
 .. autoclass:: racket.Learner
     :members:
 
@@ -16,3 +27,5 @@ Module Index
 
 .. automodule:: racket.models.channel
     :members:
+
+
