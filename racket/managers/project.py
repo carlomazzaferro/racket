@@ -1,4 +1,5 @@
 import os
+import sys
 import pkgutil
 from datetime import datetime
 
@@ -10,7 +11,6 @@ from racket.models.exceptions import NotInitializedError
 class ProjectManager(BaseConfigManager):
     """Manages project configuration racket.yaml file."""
 
-    IS_GLOBAL: bool = False
     RACKET_DIR: str = None
     CONFIG_FILE_NAME: str = 'racket.yaml'
     CONFIG: dict = None
@@ -20,9 +20,31 @@ class ProjectManager(BaseConfigManager):
         cls.RACKET_DIR = path
 
     @classmethod
-    def init_project(cls, name: str) -> None:
+    def init(cls, path: str, name: str) -> None:
+        path = os.path.join(path, name)
+        cls.create_dir(path)
+        cls.set_path(path)
         cls.init_config(name)
         cls.create_template()
+        cls.create_db()
+
+    @classmethod
+    def init_project(cls, path: str, name: str) -> None:
+        project_path = os.path.join(path, name)
+        if os.path.isdir(project_path):
+            cls.safe_init(project_path, name)
+        else:
+            cls.init(path, name)
+
+    @classmethod
+    def safe_init(cls, path: str, name: str) -> None:
+        overwrite = input('WARNING: Path specified already exists. Any configuration will be overwritten. Proceed?[Y/n]')
+        if overwrite == 'Y':
+            cls.init(path, name)
+        elif overwrite == 'n':
+            sys.exit()
+        else:
+            cls.safe_init(path, name)
 
     @classmethod
     def create_template(cls) -> None:
@@ -54,6 +76,8 @@ class ProjectManager(BaseConfigManager):
         if cls.RACKET_DIR is not None:
             if cls.RACKET_DIR not in os.getcwd():
                 db_dir = os.path.join(os.path.join(os.getcwd(), cls.RACKET_DIR))
+            else:
+                db_dir = os.getcwd()
         else:
             db_dir = os.getcwd()
         db = cls.get_value('db')
@@ -81,3 +105,4 @@ class ProjectManager(BaseConfigManager):
             db.session.add(s)
             db.session.add(mse)
         db.session.commit()
+

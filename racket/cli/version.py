@@ -8,4 +8,13 @@ log = logging.getLogger('root')
 
 @click.command()
 def version():
-    logging.info('Kryptoflow version: ' + racket.__version__)
+    """ Retrive the version of the current ``racket`` install"""
+    log.info('racket version: ' + racket.__version__)
+    print('racket version: ' + racket.__version__)
+
+
+@click.command()
+def V():
+    """ Retrive the version of the current ``racket`` install"""
+    log.info('racket version: ' + racket.__version__)
+    print('racket version: ' + racket.__version__)

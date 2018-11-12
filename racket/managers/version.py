@@ -53,7 +53,7 @@ class VersionManager:
         return str(int(v) - 1)
 
     @classmethod
-    def max_version(cls, model_name: str, semantic: str) -> Tuple[str, str]:
+    def max_v_from_name(cls, model_name: str):
         app = ServerManager.create_app('dev', False)
         with app.app_context():
             version = db.session.query(MLModel.major, MLModel.minor, MLModel.patch, MLModel.version_dir) \
@@ -61,9 +61,14 @@ class VersionManager:
                 .order_by(MLModel.major.desc(),
                           MLModel.minor.desc(),
                           MLModel.patch.desc()).first()
-            if not version:
-                return cls.decr_version(semantic), '1'
-        return '.'.join([str(version.major), str(version.minor), str(version.patch)]), version.version_dir
+            return version
+
+    @classmethod
+    def max_version(cls, model_name: str, semantic: str) -> Tuple[str, str]:
+        v = cls.max_v_from_name(model_name)
+        if not v:
+            return cls.decr_version(semantic), '1'
+        return '.'.join([str(v.major), str(v.minor), str(v.patch)]), v.version_dir
 
     @classmethod
     def compare(cls, v: str, vv: str) -> str:

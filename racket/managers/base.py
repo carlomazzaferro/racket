@@ -14,7 +14,6 @@ class BaseConfigManager(object):
         Based on the amazing github.com/polyaxon/polyaxon config manager setup
     """
 
-    IS_GLOBAL: str = False
     RACKET_DIR: str = None
     CONFIG_FILE_NAME: str = None
     CONFIG: dict = None

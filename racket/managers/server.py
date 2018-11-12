@@ -12,7 +12,6 @@ class ServerManager(BaseConfigManager):
     # client settings
     DEFAULT_TF_SERVER_NAME: str = 'localhost'
     DEFAULT_TF_SERVER_PORT: int = 8501
-    TF_MODEL_NAME: str = 'default'
     TF_MODEL_SIGNATURE_NAME: str = 'helpers'
     TF_MODEL_INPUTS_KEY: str = 'x'
     PREDICTION_TIMEOUT: int = 10
