@@ -14,6 +14,7 @@ from racket.managers.learner import LearnerManager
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
 from racket.models import db
+from racket.models.exceptions import TFSError
 from racket.models.base import MLModel, ModelScores, MLModelType
 from racket.models.helpers import get_or_create
 from racket.operations.load import ModelLoader
@@ -242,7 +243,10 @@ class KerasLearner(Learner):
             self._store_keras()
             self._store_tf(sess)
             self._store_meta()
-            ModelLoader.load(self.model_name)
+            try:
+                ModelLoader.load(self.model_name)
+            except Exception as e:
+                raise TFSError(f'Error loading trained model in TFS. Is TFS running? Full error: {e}')
 
     def _store_keras(self) -> None:
         K.set_learning_phase(0)  # prevent model from modifying weights

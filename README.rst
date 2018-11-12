@@ -21,7 +21,7 @@ Serve models with confidence.
 
 
 * Free software: GNU General Public License v3
-* Documentation: https://racket.readthedocs.io.
+* Documentation: https://r-racket.readthedocs-hosted.com
 
 
 Overview

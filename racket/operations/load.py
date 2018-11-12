@@ -4,6 +4,7 @@ from tensorflow_serving.apis import model_management_pb2
 from tensorflow_serving.config import model_server_config_pb2
 
 from racket.models.channel import Channel
+from racket.managers.server import ServerManager
 
 log = logging.getLogger('root')
 
@@ -43,24 +44,11 @@ class ModelLoader:
         -------
         None
         """
-        channel = Channel.service_channel()
-        request = model_management_pb2.ReloadConfigRequest()
-        model_server_config = model_server_config_pb2.ModelServerConfig()
-        conf = model_server_config_pb2.ModelConfigList()
+        cls.set_config(model_name)
+        log.info(cls.request.IsInitialized())
+        log.info(cls.request.ListFields())
 
-        config = conf.config.add()
-        config.name = model_name
-        config.base_path = '/models/' + model_name
-        config.model_platform = 'tensorflow'
-        model_server_config.model_config_list.CopyFrom(conf)
-        request.config.CopyFrom(model_server_config)
-
-        # cls.set_config(model_name)
-
-        log.info(request.IsInitialized())
-        log.info(request.ListFields())
-
-        response = channel.HandleReloadConfigRequest(request, 10)
+        response = cls.channel.HandleReloadConfigRequest(cls.request, ServerManager.PREDICTION_TIMEOUT)
         if response.status.error_code == 0:
             log.info(f'Loaded model {model_name} successfully')
         else:
@@ -68,4 +56,4 @@ class ModelLoader:
 
 
 if __name__ == '__main__':
-    ModelLoader.load('keras-complex-lstm')
+    ModelLoader.load('base' )
