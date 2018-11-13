@@ -3,7 +3,7 @@ import os
 
 from racket.models import db
 from racket.models.base import MLModel
-from racket.models.exceptions import ModelNotFoundError
+from racket.models.exceptions import ModelNotFoundError, validate_config
 from racket.managers.base import BaseConfigManager
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
@@ -18,6 +18,7 @@ class LearnerManager(BaseConfigManager):
     PLATFORM: str = 'tensorflow'
 
     @classmethod
+    @validate_config
     def get_path(cls, name: str) -> str:
         return os.path.join(cls.get_value('saved-models'), name)
 
@@ -29,8 +30,9 @@ class LearnerManager(BaseConfigManager):
         os.rename(curr, new)
 
     @classmethod
+    @validate_config
     def query_by_id(cls, model_id: int) -> MLModel:
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             servable = db.session.query(MLModel).filter(MLModel.model_id == model_id).one_or_none()
             if not servable:
@@ -38,8 +40,9 @@ class LearnerManager(BaseConfigManager):
             return servable
 
     @classmethod
+    @validate_config
     def query_by_name_version(cls, name: str, version: str) -> MLModel:
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             vvv = version.split('.')
             servable = db.session.query(MLModel).filter(MLModel.model_name == name) \
@@ -52,11 +55,12 @@ class LearnerManager(BaseConfigManager):
         return servable
 
     @classmethod
+    @validate_config
     def load_version_from_existing_servable(cls, servable: MLModel):
         current = VersionManager.max_v_from_name(servable.model_name)[-1]
         new = VersionManager.bump_disk(current)
         cls.bump_tf_version(servable.model_name, current, new)
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             servable.version_dir = new
             db.session.commit()

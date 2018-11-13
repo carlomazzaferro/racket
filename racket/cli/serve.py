@@ -35,7 +35,7 @@ def serve(model_id, model_name, version):
         ModelLoader.load(model_name)
 
     else:
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             if model_id:
                 servable = LearnerManager.query_by_id(model_id)
