@@ -45,7 +45,7 @@ Features
 * Model introspection: ability to view model performance and input requirements
 * Ability to deploy automatically different models with a single command
 * Rich CLI capabilities, going from project scaffolding to training, serving, and dashboarding
-* Small codebase, statically typed, and extensive docstrings
+* Small codebase, statically typed with mypy, and extensive docstrings
 * **Coming Soon** :sup:`TM`: Web-ui for managing, introspecting, and deploying models.
 
 

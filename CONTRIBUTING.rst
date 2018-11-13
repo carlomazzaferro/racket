@@ -79,8 +79,7 @@ Ready to contribute? Here's how to set up `racket` for local development.
 5. When you're done making changes, check that your changes pass flake8 and the
    tests, including testing other Python versions with tox::
 
-    $ flake8 racket tests
-    $ python setup.py test or py.test
+    $ python setup.py test
     $ tox
 
    To get flake8 and tox, just pip install them into your virtualenv.
@@ -102,7 +101,8 @@ Before you submit a pull request, check that it meets these guidelines:
 2. If the pull request adds functionality, the docs should be updated. Put
    your new functionality into a function with a docstring, and add the
    feature to the list in README.rst.
-3. The pull request should work for Python 2.7, 3.4, 3.5 and 3.6, and for PyPy. Check
+3. The pull request should work for Python 3.6, unless it is a python compatibility request
+   that targets a specific python release. Check
    https://travis-ci.org/carlomazzaferro/racket/pull_requests
    and make sure that the tests pass for all supported Python versions.
 

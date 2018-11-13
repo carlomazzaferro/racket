@@ -154,6 +154,10 @@ class KerasLearner(Learner):
         self._val_loss = latest_losses
         return self._val_loss
 
+    @historic_scores.setter
+    def historic_scores(self, d: dict) -> None:
+        self._val_loss = d
+
     @property
     def tf_path(self) -> str:
         """On disk path of the TensorFlow serialized model
@@ -163,10 +167,6 @@ class KerasLearner(Learner):
         """
 
         return os.path.join(self.path, self.version_dir)
-
-    @historic_scores.setter
-    def historic_scores(self, d: dict) -> None:
-        self._val_loss = d
 
     def scores(self, x: Iterable, y: Iterable) -> object:
         """Evaluate scores on a test set
@@ -275,7 +275,7 @@ class KerasLearner(Learner):
         log.info("Saved tf.txt model to disk")
 
     def _store_meta(self) -> None:
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             deactivate()
             sqlized = self.sql
