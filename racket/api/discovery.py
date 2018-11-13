@@ -12,19 +12,12 @@ ds = discover_ns.model('discover', {'max': fields.Integer, 'available_only': fie
 class Discover(Resource):
     def get(self):
         from racket.operations.schema import active_model
-        active = db.session.query(MLModel).filter(MLModel.model_id == active_model()).one()
-        return jsonify(active.as_dict())
+        return jsonify(active_model(name=None))
 
 
 @discover_ns.route('/available')
-class Discover(Resource):
+class DiscoverAvailable(Resource):
     def get(self):
         from racket.operations.schema import active_model
         active = db.session.query(MLModel).filter(MLModel.model_id == active_model()).one()
         return jsonify(active.as_dict())
-
-
-
-
-
-
