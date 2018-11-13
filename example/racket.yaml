@@ -1,17 +1,18 @@
+
 version: 1
 
 logging:
     level: INFO
 
 # Project Name
-name: 'sample_project'
+name: 'example'
 
 # Where to store your serialized models
 saved-models: 'serialized'
 
 
 # Database connection
-db:
+db: 
     type: 'sqlite'
     connection: 'sqlite.db'
 
@@ -34,3 +35,4 @@ tensorflow:
     TF_MODEL_NAME: 'default'
     TF_MODEL_SIGNATURE_NAME: 'helpers'
     TF_MODEL_INPUTS_KEY: 'states'
+

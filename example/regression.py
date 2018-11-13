@@ -6,7 +6,7 @@ from racket.models.learner import KerasLearner
 from sklearn.model_selection import train_test_split
 
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from tensorflow.keras.layers import SimpleRNN, Dense
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.keras.metrics import mse
 from time import time
@@ -17,9 +17,9 @@ tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 
 class KerasModel(KerasLearner):
 
-    VERSION = '0.1.0'
+    VERSION = '1.1.1'
     MODEL_TYPE = 'regression'
-    MODEL_NAME = 'base'
+    MODEL_NAME = 'keras-complex-lstm'
 
     def build_model(self):
         optimizer = tf.train.RMSPropOptimizer(0.001)
