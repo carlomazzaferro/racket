@@ -1,9 +1,12 @@
-======
-racket
-======
+==================================================
+racket      |pic1|
+==================================================
+
+.. |pic1| image:: images/table-tennis.svg
+    :width: 40px
+
 
 .. image:: https://travis-ci.com/carlomazzaferro/racket.svg?token=6AsKrC8jkbpeAsBBbVut&branch=master
-
 
 .. image:: https://img.shields.io/pypi/v/racket.svg
         :target: https://pypi.python.org/pypi/racket
@@ -56,6 +59,7 @@ Demo
 
     <a href="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
 
+
 Credits
 -------
 
@@ -63,3 +67,7 @@ This package was created with Cookiecutter_ and the `audreyr/cookiecutter-pypack
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _`audreyr/cookiecutter-pypackage`: https://github.com/audreyr/cookiecutter-pypackage
+
+The icon was created by smashicons_.
+
+.. _smashicons: https://www.flaticon.com/authors/smashicons

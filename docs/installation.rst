@@ -12,7 +12,7 @@ this python version, and it probably won't work either on 3.5 since I use f-stri
 
 Contributions are more than welcome to make the project compatible with other python versions!
 
-``docker`` and ``docker-compose`` are also requried. Reasonably up-to-date version should do it.
+``docker`` and ``docker-compose`` are also required. Reasonably up-to-date versions should suffice.
 
 
 Stable release
