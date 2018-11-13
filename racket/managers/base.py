@@ -78,7 +78,6 @@ class BaseConfigManager(object):
                 return config[key]
             else:
                 log.warning("Config `%s` has no key `%s`", cls.CONFIG.__name__, key)
-
         return None
 
 

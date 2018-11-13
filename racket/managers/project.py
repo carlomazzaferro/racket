@@ -26,7 +26,7 @@ class ProjectManager(BaseConfigManager):
         cls.set_path(path)
         cls.init_config(name)
         cls.create_template()
-        cls.create_db()
+        cls.initiate_db()
 
     @classmethod
     def init_project(cls, path: str, name: str) -> None:
@@ -88,21 +88,7 @@ class ProjectManager(BaseConfigManager):
 
     # noinspection PyArgumentList
     @classmethod
-    def create_db(cls) -> None:
+    def initiate_db(cls) -> None:
         from racket.managers.server import ServerManager
-        from racket.models import db
-        from racket.models.base import MLModel, ModelScores, MLModelType
-
-        m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1, active=True,
-                    created_at=datetime.now(), type_id=1)
-        t = MLModelType(type_id=1, type_name='regression')
-        s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
-        mse = ModelScores(id=2, model_id=1, scoring_fn='mean_squared_error', score=9378.2468363119)
-        app = ServerManager.create_app('dev', True)
-        with app.app_context():
-            db.session.add(m)
-            db.session.add(t)
-            db.session.add(s)
-            db.session.add(mse)
-        db.session.commit()
+        ServerManager.create_app('prod', True)
 

@@ -1,11 +1,15 @@
 import os
+from datetime import datetime
 
 from flask import Flask, send_from_directory
+from sqlalchemy.exc import IntegrityError
 from flask_sqlalchemy import SQLAlchemy
 
 from racket.conf import config_by_name
 from racket.managers.base import BaseConfigManager
 from racket.managers.project import ProjectManager
+from racket.models.base import MLModel, ModelScores, MLModelType
+from racket.models.exceptions import validate_config
 
 
 class ServerManager(BaseConfigManager):
@@ -22,6 +26,26 @@ class ServerManager(BaseConfigManager):
         if clean:
             database.drop_all()
         database.create_all()
+        try:
+            cls.create_inital_state(database)
+        except IntegrityError:
+            pass
+
+    # noinspection PyArgumentList
+    @classmethod
+    def create_inital_state(cls, database: SQLAlchemy):
+        m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1, active=True,
+                    created_at=datetime.now(), type_id=1)
+        t = MLModelType(type_id=1, type_name='regression')
+        s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
+        mse = ModelScores(id=2, model_id=1, scoring_fn='mean_squared_error', score=9378.2468363119)
+        # app = ServerManager.create_app('prod', False)
+        # with app.app_context():
+        database.session.add(m)
+        database.session.add(t)
+        database.session.add(s)
+        database.session.add(mse)
+        database.session.commit()
 
     @classmethod
     def create_app(cls, env: str, clean: bool) -> Flask:
@@ -48,7 +72,8 @@ class ServerManager(BaseConfigManager):
         return app
 
     @classmethod
-    def run(cls, host: str, port: int, env: str, clean: bool) -> None:
+    @validate_config
+    def run(cls, host: str, port: int, env: str, clean: bool = False) -> None:
         app = cls.create_app(env, clean)
         app.run(host, port)
 

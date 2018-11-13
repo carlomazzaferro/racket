@@ -54,7 +54,7 @@ class VersionManager:
 
     @classmethod
     def max_v_from_name(cls, model_name: str):
-        app = ServerManager.create_app('dev', False)
+        app = ServerManager.create_app('prod', False)
         with app.app_context():
             version = db.session.query(MLModel.major, MLModel.minor, MLModel.patch, MLModel.version_dir) \
                 .filter(MLModel.model_name == model_name) \
