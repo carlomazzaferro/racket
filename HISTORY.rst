@@ -6,3 +6,11 @@ History
 ------------------
 
 * First release on PyPI.
+
+0.2.0 (2018-11-13)
+------------------
+
+* Major feature implementation and documentation
+* Static typing
+* Testing - 78% coverage
+
