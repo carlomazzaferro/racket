@@ -2,9 +2,12 @@
 Usage
 #####
 
-While the :ref:`DemoVideo` provides a quick overview of the functionality of ``racket``,
+While the DemoVideo_ provides a quick overview of the functionality of ``racket``,
 this document will explain in detail the steps of the demo, and provide resources to learn more
 about the inner workings of the project.
+
+
+.. _DemoVideo: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc
 
 **********************
 Starting a New Project
@@ -64,9 +67,7 @@ you can call ``store()``, which will take care of all the wiring needed to versi
 and expose the model.
 
 
-Refer to\ :meth:`racket.KerasLearner`
+Refer to\ :class:`racket.KerasLearner` for more information about the inner workings of the methods
+implemented, and how the inner workings are leveraged to interact with TFS
 
-To use racket in a project::
-
-    import racket
 

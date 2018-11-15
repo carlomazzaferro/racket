@@ -6,7 +6,9 @@ Welcome to racket's documentation!
    :caption: Contents:
 
    installation
+   concepts
    usage
+   endpoints
    modules
    contributing
    authors
