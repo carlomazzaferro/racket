@@ -10,13 +10,13 @@ from tensorflow.keras.models import model_from_json
 from tensorflow.python.saved_model import builder as saved_model_builder, tag_constants
 from tensorflow.python.saved_model.signature_def_utils_impl import predict_signature_def
 
+from racket.utils import Printer as p
 from racket.managers.learner import LearnerManager
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
 from racket.models import db
 from racket.models.exceptions import TFSError
-from racket.models.base import MLModel, ModelScores, MLModelType
-from racket.models.helpers import get_or_create
+from racket.models.base import MLModel, ModelScores
 from racket.operations.load import ModelLoader
 from racket.operations.schema import activate, deactivate
 
@@ -94,8 +94,7 @@ class Learner(abc.ABC):
         MLModel
             The SQLAlchemy representation of the model
         """
-        values = {k: getattr(self, k) for k in ['model_name', 'major', 'minor', 'patch', 'version_dir']}
-        values['type_id'] = get_or_create(MLModelType, 'type_name', 'type_id', self.model_type)[0]
+        values = {k: getattr(self, k) for k in ['model_name', 'model_type', 'major', 'minor', 'patch', 'version_dir']}
         # noinspection PyArgumentList
         return MLModel(**values)
 
@@ -104,7 +103,7 @@ class Learner(abc.ABC):
         raise NotImplementedError
 
     @abc.abstractmethod
-    def store(self):
+    def store(self, autoload: bool = False):
         raise NotImplementedError  # pragma: no cover
 
     @abc.abstractmethod
@@ -223,7 +222,7 @@ class KerasLearner(Learner):
 
         raise NotImplementedError  # pragma: no cover
 
-    def store(self) -> None:
+    def store(self, autoload: bool = False) -> None:
         """
         Stores the model in three different ways/patterns:
 
@@ -243,10 +242,11 @@ class KerasLearner(Learner):
             self._store_keras()
             self._store_tf(sess)
             self._store_meta()
-            try:
-                ModelLoader.load(self.model_name)
-            except Exception as e:
-                raise TFSError(f'Error loading trained model in TFS. Is TFS running? Full error: {e}')
+            if autoload:
+                try:
+                    ModelLoader.load(self.model_name)
+                except Exception as e:
+                    raise TFSError(f'Error loading trained model in TFS. Is TFS running? Full error: {e}')
 
     def _store_keras(self) -> None:
         K.set_learning_phase(0)  # prevent model from modifying weights
@@ -255,7 +255,7 @@ class KerasLearner(Learner):
             json_file.write(model_json)
 
         self.model.save_weights(self.keras_h5)
-        log.info("Saved Keras model to disk")
+        p.print_success(f'Successfully stored model Keras: {self.model_name}')
 
     def _store_tf(self, session) -> None:
 
@@ -271,8 +271,7 @@ class KerasLearner(Learner):
                                              tags=[tag_constants.SERVING],
                                              signature_def_map={'helpers': signature})
         builder.save()
-
-        log.info("Saved tf.txt model to disk")
+        p.print_success(f'Successfully stored model TensorFlow: {self.model_name}')
 
     def _store_meta(self) -> None:
         app = ServerManager.create_app('prod', False)
@@ -287,3 +286,4 @@ class KerasLearner(Learner):
                 scoring_entry = ModelScores(model_id=obj.model_id, scoring_fn=scoring_function, score=score)
                 db.session.add(scoring_entry)
             db.session.commit()
+            p.print_success(f'Successfully stored metadata for model: {self.model_name}')
