@@ -2,6 +2,7 @@ import logging
 from distutils.version import StrictVersion
 from typing import Tuple
 
+from racket.utils import Printer as p
 from racket.managers.server import ServerManager
 from racket.models import db
 from racket.models.base import MLModel
@@ -20,7 +21,7 @@ class VersionManager:
             return semantic, latest_disk
         elif cls.compare(semantic, latest_smv) == 'EQ':
             new_v = cls.bump_version(semantic)
-            log.warning(f'Model with version {semantic} already exists. Bumping version to {new_v}')
+            p.print_warning(f'Model with version {semantic} already exists. Bumping version to {new_v}')
             return new_v, cls.bump_disk(latest_disk)
         else:
             raise VersionError(f'Version provided is strictly smaller than latest version for the model named: {name}, '
@@ -81,3 +82,11 @@ class VersionManager:
             return 'EQ'
         else:
             return 'LT'
+
+    @classmethod
+    def parse_cli_v(cls, v) -> Tuple[str, int]:
+        t = v[0]
+        n = int(v[1:])
+        if t not in {'M', 'm', 'p'}:
+            raise VersionError('Version provided is invalid')
+        return {'M': 'major', 'm': 'minor', 'p': 'patch'}[t], n

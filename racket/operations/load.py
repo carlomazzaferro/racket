@@ -3,6 +3,7 @@ import logging
 from tensorflow_serving.apis import model_management_pb2
 from tensorflow_serving.config import model_server_config_pb2
 
+from racket.utils import Printer as p
 from racket.models.channel import Channel
 from racket.managers.server import ServerManager
 
@@ -50,9 +51,9 @@ class ModelLoader:
 
         response = cls.channel.HandleReloadConfigRequest(cls.request, ServerManager.PREDICTION_TIMEOUT)
         if response.status.error_code == 0:
-            log.info(f'Loaded model {model_name} successfully')
+            p.print_success(f'Loaded model {model_name} successfully')
         else:
-            log.warning(f'Loading failed, {response.status.error_code}: {response.status.error_message}')
+            p.print_error(f'Loading failed, {response.status.error_code}: {response.status.error_message}')
 
 
 if __name__ == '__main__':

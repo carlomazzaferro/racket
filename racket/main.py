@@ -7,7 +7,8 @@ import click
 from racket.cli.dashboard import dashboard
 from racket.cli.init import init
 from racket.cli.serve import serve
-from racket.cli.version import version, V
+from racket.cli.version import version, v
+from racket.cli.ls import ls
 from racket.conf import setup_logging
 
 __author__ = "Carlo Mazzaferro"
@@ -33,4 +34,5 @@ cli.add_command(version)
 cli.add_command(serve)
 cli.add_command(dashboard)
 cli.add_command(version)
-cli.add_command(V)
+cli.add_command(v)
+cli.add_command(ls)

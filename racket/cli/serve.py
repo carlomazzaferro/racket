@@ -2,6 +2,7 @@ import logging
 
 import click
 
+from racket.utils import Printer as p
 from racket.managers.learner import LearnerManager
 from racket.managers.server import ServerManager
 from racket.models.exceptions import CLIError
@@ -42,7 +43,7 @@ def serve(model_id, model_name, version):
             else:
                 servable = LearnerManager.query_by_name_version(model_name, version)
             if servable.active:
-                log.warning('Model specified is already active')
+                p.print_warning('Model specified is already active')
                 return
             else:
                 LearnerManager.load_version_from_existing_servable(servable)
