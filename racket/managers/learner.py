@@ -7,6 +7,7 @@ from racket.models.exceptions import ModelNotFoundError, validate_config
 from racket.managers.base import BaseConfigManager
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
+from racket.operations.schema import query_by_id_
 
 log = logging.getLogger('root')
 
@@ -32,12 +33,7 @@ class LearnerManager(BaseConfigManager):
     @classmethod
     @validate_config
     def query_by_id(cls, model_id: int) -> MLModel:
-        app = ServerManager.create_app('prod', False)
-        with app.app_context():
-            servable = db.session.query(MLModel).filter(MLModel.model_id == model_id).one_or_none()
-            if not servable:
-                raise ModelNotFoundError(f'The model requested with id {model_id} was not found in the database')
-            return servable
+        return query_by_id_(model_id)
 
     @classmethod
     @validate_config
