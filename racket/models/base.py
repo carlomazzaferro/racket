@@ -25,8 +25,8 @@ class MLModel(db.Model, SerialializableModel):
         Directory where the models will be stored inside TensorFlow serving and on-disk
     created_at: dateteime.datetime
         When the model was created
-    type_id: int
-        The model type identifier, which will have a ``ForeignKey`` constraint on the table ``MLModelType``
+    model_type: str
+        The model type usually either regression or classification
     """
 
     __tablename__ = 'MLModel'
@@ -38,13 +38,7 @@ class MLModel(db.Model, SerialializableModel):
     version_dir = db.Column(db.String)
     active = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
-    type_id = db.Column(db.Integer, ForeignKey("MLModelType.type_id"))
-
-
-class MLModelType(db.Model, SerialializableModel):
-    __tablename__ = 'MLModelType'
-    type_id = db.Column(db.Integer, index=True, primary_key=True)
-    type_name = db.Column(db.String)
+    model_type = db.Column(db.String)
 
 
 class MLModelInputs(db.Model, SerialializableModel):
@@ -53,7 +47,7 @@ class MLModelInputs(db.Model, SerialializableModel):
     model_inputs = db.Column(db.Text)
 
 
-class ModelScores(db.Model):
+class ModelScores(db.Model, SerialializableModel):
     """Scores of the model
 
     Parameters
