@@ -57,7 +57,7 @@ Demo
 
 .. raw:: html
 
-    <a href="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
+    <a href="https://asciinema.org/a/ZVbYSQSjGOg03HmnLNVQGBygI?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
 
 
 Credits

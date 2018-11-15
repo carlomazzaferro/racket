@@ -19,7 +19,7 @@ class KerasModel(KerasLearner):
 
     VERSION = '1.1.1'
     MODEL_TYPE = 'regression'
-    MODEL_NAME = 'keras-complex-lstm'
+    MODEL_NAME = 'keras-simple-regression'
 
     def build_model(self):
         optimizer = tf.train.RMSPropOptimizer(0.001)
@@ -39,4 +39,4 @@ if __name__ == '__main__':
     X_train, X_test, y_train, y_test = train_test_split(x, y)
     kf = KerasModel()
     kf.fit(X_train, y_train, x_val=X_test, y_val=y_test)
-    kf.store()
+    kf.store(autoload=True)

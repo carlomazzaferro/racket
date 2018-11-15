@@ -20,10 +20,10 @@ def deactivate() -> None:
         db.session.commit()
 
 
-def activate() -> None:
+def activate(model_id: int) -> None:
     app = ServerManager.create_app('prod', False)
     with app.app_context():
-        active = db.session.query(MLModel).order_by(desc(MLModel.version_dir)).first()
+        active = db.session.query(MLModel).filter(MLModel.model_id == model_id).one()
         active.active = True
         db.session.commit()
 

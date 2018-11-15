@@ -255,7 +255,7 @@ class KerasLearner(Learner):
             json_file.write(model_json)
 
         self.model.save_weights(self.keras_h5)
-        p.print_success(f'Successfully stored model Keras: {self.model_name}')
+        p.print_success(f'Successfully stored Keras model: {self.model_name}')
 
     def _store_tf(self, session) -> None:
 
@@ -271,7 +271,7 @@ class KerasLearner(Learner):
                                              tags=[tag_constants.SERVING],
                                              signature_def_map={'helpers': signature})
         builder.save()
-        p.print_success(f'Successfully stored model TensorFlow: {self.model_name}')
+        p.print_success(f'Successfully stored TensorFlow model: {self.model_name}')
 
     def _store_meta(self) -> None:
         app = ServerManager.create_app('prod', False)
@@ -280,7 +280,7 @@ class KerasLearner(Learner):
             sqlized = self.sql
             db.session.add(sqlized)
             db.session.commit()
-            activate()
+            activate(sqlized.model_id)
             for scoring_function, score in self.historic_scores.items():
                 obj = db.session.query(MLModel).order_by(MLModel.model_id.desc()).first()
                 scoring_entry = ModelScores(model_id=obj.model_id, scoring_fn=scoring_function, score=score)

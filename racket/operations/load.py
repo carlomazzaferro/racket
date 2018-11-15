@@ -57,4 +57,4 @@ class ModelLoader:
 
 
 if __name__ == '__main__':
-    ModelLoader.load('base' )
+    ModelLoader.load('keras-simple-regression')
