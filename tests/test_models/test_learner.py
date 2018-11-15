@@ -79,7 +79,7 @@ def test_on_trained_model(instantiated_learner, sample_data):
     assert 'loss' in ll.keys()
 
     with pytest.raises(Exception):
-        instantiated_learner.store()
+        instantiated_learner.store(autoload=True)
     assert os.path.exists('serialized/keras-complex-lstm_1.h5')
     shutil.rmtree('serialized')
 
