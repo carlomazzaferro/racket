@@ -1,12 +1,12 @@
 from typing import Union
-from sqlalchemy import desc
+
 from sqlalchemy.orm.exc import NoResultFound
 
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
 from racket.models import db
-from racket.models.exceptions import ModelNotFoundError
 from racket.models.base import MLModelInputs, MLModel, ModelScores
+from racket.models.exceptions import ModelNotFoundError
 
 
 def deactivate() -> None:
@@ -42,8 +42,8 @@ def active_model_(name: bool = None, scores: bool = False) -> Union[str, dict]:
         active = db.session.query(MLModel).filter(MLModel.active == True).one()  # NOQA
         if scores:
             return db.session.query(MLModel, ModelScores).filter(MLModel.model_id == active.model_id) \
-                                                          .filter(ModelScores.model_id == MLModel.model_id) \
-                                                          .all()
+                .filter(ModelScores.model_id == MLModel.model_id) \
+                .all()
         if name:
             active = db.session.query(MLModel.model_name).filter(MLModel.model_id == active.model_id).one()
             return active[0]
@@ -69,8 +69,8 @@ def query_by_id_(model_id: int, scores: bool = False) -> MLModel:
     with app.app_context():
         if scores:
             return db.session.query(MLModel, ModelScores).filter(MLModel.model_id == model_id) \
-                                                         .filter(ModelScores.model_id == MLModel.model_id) \
-                                                         .all()
+                .filter(ModelScores.model_id == MLModel.model_id) \
+                .all()
         servable = db.session.query(MLModel).filter(MLModel.model_id == model_id).one_or_none()
         if not servable:
             raise ModelNotFoundError(f'The model requested with id {model_id} was not found in the database')
@@ -89,12 +89,13 @@ def model_filterer_(name, version, m_type):
     app = ServerManager.create_app('prod', False)
     with app.app_context():
         query = db.session.query(MLModel, ModelScores) \
-                              .filter(*fs)
+            .filter(*fs)
         return query.all()
 
 
 def query_all_():
     app = ServerManager.create_app('prod', False)
     with app.app_context():
-        query = db.session.query(MLModel, ModelScores)
+        query = db.session.query(MLModel, ModelScores) \
+            .filter(MLModel.model_id == ModelScores.model_id)
         return query.all()

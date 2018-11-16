@@ -35,7 +35,7 @@ usually a big enough challenge to grant the employment of an entire separate tea
 the project is removing (or at least softening) the dependency on machine learning engineers and devops,
 enabling data scientist to go from concept to production in minutes.
 
-.. note:: **STATUS**: early alpha. Active development, but breaking changes may come.
+.. note:: **STATUS**: alpha. Active development, but breaking changes may come.
 
 Features
 --------
@@ -57,7 +57,7 @@ Demo
 
 .. raw:: html
 
-    <a href="https://asciinema.org/a/ZVbYSQSjGOg03HmnLNVQGBygI?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
+    <a href="https://asciinema.org/a/xxoebEfyu1bzO84hWWAams577?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
 
 
 Credits
