@@ -11,9 +11,10 @@ racket      |pic1|
 .. image:: https://img.shields.io/pypi/v/racket.svg
         :target: https://pypi.python.org/pypi/racket
 
-.. image:: https://readthedocs.com/projects/r-racket/badge/?version=latest
-    :target: https://r-racket.readthedocs-hosted.com/en/latest/?badge=latest
+.. image:: https://readthedocs.org/projects/racket/badge/?version=latest
+    :target: https://racket.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
+                
 
 .. image:: https://pyup.io/repos/github/carlomazzaferro/racket/shield.svg
      :target: https://pyup.io/repos/github/carlomazzaferro/racket/
