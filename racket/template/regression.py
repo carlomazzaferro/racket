@@ -1,14 +1,13 @@
 from sklearn.datasets import make_regression
 import tensorflow as tf
 
-from racket.models.learner import KerasLearner
+from racket.models.learner.k import KerasLearner
 
 from sklearn.model_selection import train_test_split
 
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.keras.metrics import mae
 from time import time
 
 

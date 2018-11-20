@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from racket.models.learner import Learner, KerasLearner
+from racket.models.learner.base import Learner
+from racket.models.learner.k import KerasLearner
 
 """Top-level package for racket."""
 
