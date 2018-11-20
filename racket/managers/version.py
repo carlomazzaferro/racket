@@ -84,6 +84,13 @@ class VersionManager:
             return 'LT'
 
     @classmethod
+    def semantic_to_tuple(cls, semantic: str) -> Tuple[int, ...]:
+        mmp = [int(i) for i in cls.split_(semantic)]
+        if len(mmp) != 3 or any([i < 0 for i in mmp]):
+            raise VersionError('Version must be of form X.X.X where X is a positive integer')
+        return tuple(mmp)
+
+    @classmethod
     def parse_cli_v(cls, v) -> Tuple[str, int]:
         t = v[0]
         n = int(v[1:])

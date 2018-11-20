@@ -1,8 +1,6 @@
 import click
 
-from racket.operations.schema import active_model_, model_filterer_, query_all_, query_by_id_
-from racket.operations.utils import merge_and_unfold, unfold
-from racket.utils import dict_tabulate
+from racket.operations.schema import list_models
 
 
 @click.command()
@@ -31,17 +29,4 @@ def ls(name, version, m_type, active, model_id):
 
 
     """
-    if active:
-        dict_tabulate(merge_and_unfold(active_model_(scores=True), filter_keys=['id']))
-        return
-
-    if model_id:
-        dict_tabulate(merge_and_unfold(query_by_id_(model_id, scores=True), filter_keys=['id']))
-        return
-
-    if any([name, m_type, version]):
-        result_set = model_filterer_(name, version, m_type)
-        dict_tabulate(merge_and_unfold(result_set, filter_keys=['id']))
-        return
-
-    return dict_tabulate(merge_and_unfold(query_all_()))
+    list_models(name, version, m_type, active, model_id)

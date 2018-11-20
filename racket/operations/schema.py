@@ -7,6 +7,8 @@ from racket.managers.version import VersionManager
 from racket.models import db
 from racket.models.base import MLModelInputs, MLModel, ModelScores
 from racket.models.exceptions import ModelNotFoundError
+from racket.operations.utils import merge_and_unfold
+from racket.utils import dict_tabulate
 
 
 def deactivate() -> None:
@@ -99,3 +101,38 @@ def query_all_():
         query = db.session.query(MLModel, ModelScores) \
             .filter(MLModel.model_id == ModelScores.model_id)
         return query.all()
+
+
+def list_models(name: str = None, version: str = None, m_type: str = None, active: bool = None, model_id: int = None):
+    """List available models, filtering and sorting as desired
+
+    Examples
+    --------
+
+    Running::
+
+        $ racket ls -a  # returns the active model's metadata
+
+    Will return::
+
+          model_id  model_name      major    minor    patch    version_dir  active    created_at                  model_type    scoring_fn            score
+        ----------  ------------  -------  -------  -------  -------------  --------  --------------------------  ------------  ------------------  -------
+                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    loss                9378.25
+                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    mean_squared_error  9378.25
+
+
+    """
+    if active:
+        dict_tabulate(merge_and_unfold(active_model_(scores=True), filter_keys=['id']))
+        return
+
+    if model_id:
+        dict_tabulate(merge_and_unfold(query_by_id_(model_id, scores=True), filter_keys=['id']))
+        return
+
+    if any([name, m_type, version]):
+        result_set = model_filterer_(name, version, m_type)
+        dict_tabulate(merge_and_unfold(result_set, filter_keys=['id']))
+        return
+
+    return dict_tabulate(merge_and_unfold(query_all_()))
