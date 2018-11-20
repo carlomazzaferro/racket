@@ -2,6 +2,7 @@
 [run]
 omit =
     racket/metrics.py
+    racket/models/learner/t.py
     *__init__.py*
 
 [report]

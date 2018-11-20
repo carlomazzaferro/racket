@@ -1,5 +1,7 @@
 import pytest
+
 from racket.managers.version import VersionManager
+from racket.models.exceptions import VersionError
 
 
 @pytest.fixture
@@ -24,10 +26,17 @@ def test_decr_v(vm):
     assert vm.decr_version('1.0.1') == '1.0.0'
 
 
-def test_max_v(vm):
+def test_max_v(vm, init_project):
     assert vm.max_version('non-existing-model', '1.0.1') == ('1.0.0', '1')
 
 
-def test_check_v(vm):
+def test_check_v(vm, init_project):
     assert vm.check_version('1.0.1', 'n-e-m') == ('1.0.1', '1')
 
+
+def test_split(vm, init_project):
+    assert vm.semantic_to_tuple('1.1.1') == (1, 1, 1)
+    with pytest.raises(VersionError):
+        vm.semantic_to_tuple('1.1.1.1')
+    with pytest.raises(VersionError):
+        vm.semantic_to_tuple('1.1.-1')

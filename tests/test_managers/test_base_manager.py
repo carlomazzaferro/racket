@@ -1,8 +1,10 @@
 import os
 import shutil
+
 import pytest
-from racket.managers.constants import TEMPLATE_PROJECT_FILES
+
 from racket.managers.base import BaseConfigManager
+from racket.managers.constants import TEMPLATE_PROJECT_FILES
 from racket.managers.project import ProjectManager
 from racket.models.exceptions import NotInitializedError
 
@@ -14,13 +16,13 @@ def test_default():
 
 
 def test_project():
+    # noinspection PyTypeChecker
     ProjectManager.set_path(None)
     with pytest.raises(NotInitializedError):
         ProjectManager.get_models()
 
 
-def test_get_config_file_path():
-
+def test_get_config_file_path(init_project):
     BaseConfigManager.CONFIG_FILE_NAME = 'wrongfile.yml'
     assert BaseConfigManager.get_config() is None
     assert BaseConfigManager.get_value('key') is None
@@ -36,6 +38,8 @@ def test_get_config_file_path():
     with pytest.raises(AttributeError):
         BaseConfigManager.get_value('key')
 
+
+def test_more_config(init_project):
     assert isinstance(BaseConfigManager.get_config(), dict)
     assert BaseConfigManager.get_value('name') == 'sample_project'
     assert BaseConfigManager.get_value('logging') == {'level': 'INFO'}
@@ -52,7 +56,7 @@ def test_get_config_file_path():
     shutil.rmtree('tests/test-dir')
 
 
-def test_project_manager():
+def test_project_manager(init_project):
     ProjectManager.set_path('tests/sample_project')
     assert ProjectManager.RACKET_DIR == 'tests/sample_project'
 
@@ -66,4 +70,3 @@ def test_project_manager():
     for file in TEMPLATE_PROJECT_FILES:
         file_path = file.replace('template/', '')
         assert os.path.isfile(os.path.join(ProjectManager.RACKET_DIR, file_path))
-

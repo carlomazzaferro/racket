@@ -1,19 +1,45 @@
-import pytest
-import numpy
-import os
+import shutil
 
-from racket.managers.server import ServerManager
+import numpy
+import pytest
+import tensorflow as tf
+from tensorflow.keras import Sequential
+from tensorflow.keras.layers import Dense
+from tensorflow.keras.losses import mse
+
+from racket import KerasLearner
 from racket.managers.project import ProjectManager
 
 
-# @pytest.fixture
-# def app():
-#     app = ServerManager.create_app('test', True)
-#     return app
+@pytest.fixture(scope='session')
+def instantiated_learner():
+    class KerasModel(KerasLearner):
+        VERSION = '1.2.1'
+        MODEL_TYPE = 'regression'
+        MODEL_NAME = 'keras-complex-lstm'
 
-# @pytest.fixture
-# def project_path():
-#
+        def build_model(self):
+            optimizer = tf.train.RMSPropOptimizer(0.001)
+            model = Sequential()
+            model.add(Dense(3, input_dim=5, kernel_initializer='normal', activation='relu'))
+            model.add(Dense(4, kernel_initializer='normal', activation='relu'))
+            model.add(Dense(1, kernel_initializer='normal'))
+            model.compile(loss='mean_squared_error', optimizer=optimizer, metrics=[mse])
+            return model
+
+        def fit(self, x, y, x_val=None, y_val=None, epochs=10, batch_size=2):
+            self.model.fit(x, y, epochs=epochs, verbose=0, validation_data=(x_val, y_val))
+
+    kl = KerasModel()
+    return kl
+
+
+@pytest.fixture(scope='session')
+def init_project():
+    ProjectManager.init('tests', 'sample_project')
+    yield
+    shutil.rmtree('tests/sample_project')
+    # shutil.rmtree('serialized')
 
 
 @pytest.fixture
@@ -35,4 +61,3 @@ def sample_data():
 
     y_te = numpy.array([-1.75175537, -95.32782004, -22.154719])
     return x_tr, x_te, y_tr, y_te
-
