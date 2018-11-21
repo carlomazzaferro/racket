@@ -1,13 +1,16 @@
 language: python
 python:
-- 3.6
+    - "3.6"
 install: pip install -U tox-travis
 script: tox
+after_script:
+    - coveralls
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
   user: Mazzafish
   password:
-    secure: F1fQ4qJruRhKGUJ+5nEf7zIapin0bpAOZvl6ruaSPKzhHaDaSz8nPbcHPiQyBYxYSc/Gj+WuXrjRPrgtSYOVCpPpuA6jrEGJyq445Bo//Wo6yl7oRScLDqJ4GhjmMQrvL6Q/x9ojaro9HJXmlj1s/bssl2l2LueLdDi/hv4mK911RILqLZjDTLXhoZ4hA8Rf66dm53KeQ9lIANdwZOAN2XaNPLF49niY61eEjV+Qd/CuwOeXpS7qf6NulAlHPLM09OS8hd3UlyAiB+Dnk9DoA+8XtmuJpKic4R5B4dp+2au/OCkgCNhQk3R6SaStXud5ODnF0RjCBls5KWaEAKsG71JSb/6iq3+yy6qVhMjtbp747OHmXcBRiRHm1bzVayZeoqK7WA9GCJeBAniPtv6xDRS37g08v9moSsdf4xvpzfDwGpBBD4jhSGcbKEv0o+6/E/qEuYDqLVVNONSSxNEn/W3BzxmFwfwUrO6IjWN6CJtLXXJyy6zoMZO4aBu2zjg+jazGne7+mWxtA/gLwAQTFHbzs9vQz3YA/EiZY0q5ov3c9gxvxHZdAAhzSZwzU7MmGDR9fK+mrXEUrABNz+IdqWzaMsSTdiRJLBsOMnUymI+ueAjGjo2xY4L53PumenYlKvF86EsB/nMLz1OQu5tYuzBrx1QvAIIXVmc6QZwTbHI=
+      secure: dQ8saGj7PpwtF2nXDaVvMbyOz8hGuDQSexFQ0yA1HC3w/fcLMrh/WbleQ+TYTdWAvJ5zknMn2mH3w8qDteh604ajSbdL4t7gLgMm5o7E1krr7Jf6zxc4vUm5Yqm0d/kc6tsBwzZTbjiNHL4SX3ZXged6Ibvw+w+CgjlD5NXGnDiGF1DBkdGqxItkiZXu9F0PCmR4sHYqjEhbPiQSI4Ib6kqhNwH4vso+YiUK5GqllNUPZTqZFvGo+ftIZ+RoFceaN39b9df49Y80NIWYxBs7hxPItkFvhrATiEniv7JY33DQjWg2BBOE5ZDcZ7yazMOJyrIQ/T62+1oLdg6MXcSsXli3DnhXlwMGQYREx9j0hD/Kc/zw38ZpqccZE4VZGfFAnq++XS4LEjqtjbfk9lNylx9Nu04Geq0ipP9RnBy28c+/fqWgNXsvu7e9te4K5aUPasTNiSgc/GPU6Es3v2t/YT3ng6K5qZr361/iW2kjo2nSds0KuxnV1jK5v0p1daVkrXLsT+gUv3VFRY0nfY1ucLdtlhA05Hc5YYykUItJjz7QFKsQytnhxGmZi6oEWs29zpXV8vbiHr7zQdtyxI6qf4UH/UGbZ0kP/4NzkT6Rore7lBt5lvgGTtBK/quksSZ/VIweqNi2z/wiGeLfisH7NHvbZa5Y4/MwBxa5OR6x/Q4=
   on:
     tags: true
+    python: 3.6
