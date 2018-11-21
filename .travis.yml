@@ -5,12 +5,4 @@ install: pip install -U tox-travis
 script: tox
 after_script:
     - coveralls
-deploy:
-  provider: pypi
-  distributions: sdist bdist_wheel
-  user: Mazzafish
-  password:
-      secure: dQ8saGj7PpwtF2nXDaVvMbyOz8hGuDQSexFQ0yA1HC3w/fcLMrh/WbleQ+TYTdWAvJ5zknMn2mH3w8qDteh604ajSbdL4t7gLgMm5o7E1krr7Jf6zxc4vUm5Yqm0d/kc6tsBwzZTbjiNHL4SX3ZXged6Ibvw+w+CgjlD5NXGnDiGF1DBkdGqxItkiZXu9F0PCmR4sHYqjEhbPiQSI4Ib6kqhNwH4vso+YiUK5GqllNUPZTqZFvGo+ftIZ+RoFceaN39b9df49Y80NIWYxBs7hxPItkFvhrATiEniv7JY33DQjWg2BBOE5ZDcZ7yazMOJyrIQ/T62+1oLdg6MXcSsXli3DnhXlwMGQYREx9j0hD/Kc/zw38ZpqccZE4VZGfFAnq++XS4LEjqtjbfk9lNylx9Nu04Geq0ipP9RnBy28c+/fqWgNXsvu7e9te4K5aUPasTNiSgc/GPU6Es3v2t/YT3ng6K5qZr361/iW2kjo2nSds0KuxnV1jK5v0p1daVkrXLsT+gUv3VFRY0nfY1ucLdtlhA05Hc5YYykUItJjz7QFKsQytnhxGmZi6oEWs29zpXV8vbiHr7zQdtyxI6qf4UH/UGbZ0kP/4NzkT6Rore7lBt5lvgGTtBK/quksSZ/VIweqNi2z/wiGeLfisH7NHvbZa5Y4/MwBxa5OR6x/Q4=
-  on:
-    tags: true
-    python: 3.6
+    - bash deploy.sh

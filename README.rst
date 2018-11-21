@@ -1,6 +1,6 @@
-###################
+##################
 racket      |pic1|
-###################
+##################
 
 .. |pic1| image:: docs/images/table-tennis_60px.png
     :width: 40px
@@ -15,10 +15,14 @@ racket      |pic1|
     :target: https://racket.readthedocs.io/en/latest/?badge=latest
     :alt: Documentation Status
                 
+.. image:: https://coveralls.io/repos/github/carlomazzaferro/racket/badge.svg?branch=master
+    :target: https://coveralls.io/github/carlomazzaferro/racket?branch=master
+    :alt: Coverage
 
 .. image:: https://pyup.io/repos/github/carlomazzaferro/racket/shield.svg
      :target: https://pyup.io/repos/github/carlomazzaferro/racket/
      :alt: Updates
+
 
 
 Serve models with confidence.
