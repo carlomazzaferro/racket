@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euxo pipefail
+
 python setup.py sdist bdist_wheel
 pip install twine
-twine uplaod --username Mazzafish --password $PYPI dist/*
+twine upload --username Mazzafish --password $PYPI dist/*
