@@ -6,10 +6,8 @@ script: tox
 deploy:
   provider: pypi
   distributions: sdist bdist_wheel
-  user: mazzafish
+  user: Mazzafish
   password:
     secure: F1fQ4qJruRhKGUJ+5nEf7zIapin0bpAOZvl6ruaSPKzhHaDaSz8nPbcHPiQyBYxYSc/Gj+WuXrjRPrgtSYOVCpPpuA6jrEGJyq445Bo//Wo6yl7oRScLDqJ4GhjmMQrvL6Q/x9ojaro9HJXmlj1s/bssl2l2LueLdDi/hv4mK911RILqLZjDTLXhoZ4hA8Rf66dm53KeQ9lIANdwZOAN2XaNPLF49niY61eEjV+Qd/CuwOeXpS7qf6NulAlHPLM09OS8hd3UlyAiB+Dnk9DoA+8XtmuJpKic4R5B4dp+2au/OCkgCNhQk3R6SaStXud5ODnF0RjCBls5KWaEAKsG71JSb/6iq3+yy6qVhMjtbp747OHmXcBRiRHm1bzVayZeoqK7WA9GCJeBAniPtv6xDRS37g08v9moSsdf4xvpzfDwGpBBD4jhSGcbKEv0o+6/E/qEuYDqLVVNONSSxNEn/W3BzxmFwfwUrO6IjWN6CJtLXXJyy6zoMZO4aBu2zjg+jazGne7+mWxtA/gLwAQTFHbzs9vQz3YA/EiZY0q5ov3c9gxvxHZdAAhzSZwzU7MmGDR9fK+mrXEUrABNz+IdqWzaMsSTdiRJLBsOMnUymI+ueAjGjo2xY4L53PumenYlKvF86EsB/nMLz1OQu5tYuzBrx1QvAIIXVmc6QZwTbHI=
   on:
     tags: true
-    repo: carlomazzaferro/racket
-    python: 3.6
