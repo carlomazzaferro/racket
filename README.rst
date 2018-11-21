@@ -6,10 +6,11 @@ racket      |pic1|
     :width: 40px
 
 
-.. image:: https://travis-ci.com/carlomazzaferro/racket.svg?token=6AsKrC8jkbpeAsBBbVut&branch=master
+.. image:: https://travis-ci.org/carlomazzaferro/racket.svg?branch=master
+    :target: https://travis-ci.org/carlomazzaferro/racket
 
 .. image:: https://img.shields.io/pypi/v/racket.svg
-        :target: https://pypi.python.org/pypi/racket
+    :target: https://pypi.python.org/pypi/racket
 
 .. image:: https://readthedocs.org/projects/racket/badge/?version=latest
     :target: https://racket.readthedocs.io/en/latest/?badge=latest
@@ -19,9 +20,9 @@ racket      |pic1|
     :target: https://coveralls.io/github/carlomazzaferro/racket?branch=master
     :alt: Coverage
 
-.. image:: https://pyup.io/repos/github/carlomazzaferro/racket/shield.svg
-     :target: https://pyup.io/repos/github/carlomazzaferro/racket/
-     :alt: Updates
+.. image:: https://pepy.tech/badge/racket
+     :target: https://pepy.tech/badge/racket
+     :alt: Downloads
 
 
 
@@ -60,9 +61,9 @@ Features
 Demo
 ----
 
-.. raw:: html
 
-    <a href="https://asciinema.org/a/xxoebEfyu1bzO84hWWAams577?autoplay=1" target="_blank"><img src="https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg" width="835"/></a>
+.. image:: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg
+    :target: https://asciinema.org/a/xxoebEfyu1bzO84hWWAams577?autoplay=1
 
 
 Credits
