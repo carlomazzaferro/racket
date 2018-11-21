@@ -66,6 +66,6 @@ setup(
     test_suite='tests',
     tests_require=test_requires,
     url='https://github.com/carlomazzaferro/racket',
-    version='0.3.2',
+    version='0.3.3',
     zip_safe=False,
 )
