@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, List
 
 from sqlalchemy.orm.exc import NoResultFound
 
@@ -33,6 +33,7 @@ def activate(model_id: int) -> None:
 def active_model_(name: bool = None, scores: bool = False) -> Union[str, dict]:
     """
     Query the model id of the currently active model
+
     Returns
     -------
     str
@@ -52,13 +53,16 @@ def active_model_(name: bool = None, scores: bool = False) -> Union[str, dict]:
         return active.as_dict()
 
 
-def determine_current_schema() -> dict:
+def current_schema_() -> dict:
     """
     Get the input specification of the currently active model
+
     Returns
     -------
-    dict: dictionary of the specs
+    schema: dict
+        Dictionary of the specs
     """
+
     app = ServerManager.create_app('prod', False)
     model = active_model_()
     with app.app_context():
@@ -96,6 +100,13 @@ def model_filterer_(name, version, m_type):
 
 
 def query_all_():
+    """
+    Query all the models and their associated scores
+
+    Returns
+    -------
+
+    """
     app = ServerManager.create_app('prod', False)
     with app.app_context():
         query = db.session.query(MLModel, ModelScores) \
@@ -103,36 +114,45 @@ def query_all_():
         return query.all()
 
 
-def list_models(name: str = None, version: str = None, m_type: str = None, active: bool = None, model_id: int = None):
-    """List available models, filtering and sorting as desired
-
-    Examples
-    --------
-
-    Running::
-
-        $ racket ls -a  # returns the active model's metadata
-
-    Will return::
-
-          model_id  model_name      major    minor    patch    version_dir  active    created_at                  model_type    scoring_fn            score
-        ----------  ------------  -------  -------  -------  -------------  --------  --------------------------  ------------  ------------------  -------
-                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    loss                9378.25
-                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    mean_squared_error  9378.25
-
-
+def list_models(name: str = None,
+                version: str = None,
+                m_type: str = None,
+                active: bool = None,
+                model_id: int = None) -> List[dict]:
     """
+    List available models, filtering and sorting as desired
+
+    Parameters
+    ----------
+    name : str
+        Name of te model
+
+    version : str
+        Version of the mode, such as '1.1.0'
+
+    m_type : str
+        Model type, usually either `regression` or `classification`
+
+    active : bool
+        Flag to query the active model. All other flags will be ignored if this is passed
+
+    model_id : int
+        The id of the model to be queried. All other flags will be ignored if this is passed
+
+    Returns
+    -------
+    List[dict]
+        Results is printed to stdout
+    """
+
     if active:
-        dict_tabulate(merge_and_unfold(active_model_(scores=True), filter_keys=['id']))
-        return
+        return merge_and_unfold(active_model_(scores=True), filter_keys=['id'])
 
     if model_id:
-        dict_tabulate(merge_and_unfold(query_by_id_(model_id, scores=True), filter_keys=['id']))
-        return
+        return merge_and_unfold(query_by_id_(model_id, scores=True), filter_keys=['id'])
 
     if any([name, m_type, version]):
         result_set = model_filterer_(name, version, m_type)
-        dict_tabulate(merge_and_unfold(result_set, filter_keys=['id']))
-        return
+        return merge_and_unfold(result_set, filter_keys=['id'])
 
-    return dict_tabulate(merge_and_unfold(query_all_()))
+    return merge_and_unfold(query_all_())

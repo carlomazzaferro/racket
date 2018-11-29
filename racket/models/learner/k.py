@@ -134,7 +134,7 @@ class KerasLearner(Learner):
 
         with K.get_session() as sess:
             self.serializers['keras'].store(sess)
-            self.serializers['meta'].store(sess, self.sql)
+            self.serializers['meta'].store(self.historic_scores, self.sql)
             if autoload:
                 try:
                     ModelLoader.load(self.model_name)

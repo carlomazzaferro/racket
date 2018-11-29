@@ -3,6 +3,8 @@ import logging
 from tensorflow_serving.apis import model_management_pb2
 from tensorflow_serving.config import model_server_config_pb2
 
+from racket.managers.learner import LearnerManager
+from racket.models.exceptions import CLIError
 from racket.utils import Printer as p
 from racket.models.channel import Channel
 from racket.managers.server import ServerManager
@@ -10,9 +12,52 @@ from racket.managers.server import ServerManager
 log = logging.getLogger('root')
 
 
+def serve_model(model_id: int, model_name: str, version: str):
+    """Serve a specific model.
+
+    This allows you to specify either a model-id or a the name + version of a specific model that you'd like to serve.
+        If the model-id is specified, the name and versions are ignored.
+
+    Throws an error if the specified model do not exist.
+
+    Parameters
+    ----------
+    model_id : int
+        The desired model id to be loaded
+    model_name : str
+        The desired model name to be loaded. Must not be provided if model id is given
+    version : str
+        Semantic version, i.e. `1.1.20` of the model to be loaded
+    """
+    if (version != 'latest' and model_id) or (model_name and model_id):
+        raise CLIError('You must specify either a model_id or a model_name + version, or just the model name ('
+                       'in which case the default latest version will be used)')
+
+    if not model_name and not model_id:
+        raise CLIError('You must specify either a model_id or a model_name + version, or just the model name ('
+                       'in which case the default latest version will be used)')
+
+    if version == 'latest' and model_name:
+        ModelLoader.load(model_name)
+
+    else:
+        app = ServerManager.create_app('prod', False)
+        with app.app_context():
+            if model_id:
+                servable = LearnerManager.query_by_id(model_id)
+            else:
+                servable = LearnerManager.query_by_name_version(model_name, version)
+            if servable.active:
+                p.print_warning('Model specified is already active')
+                return
+            else:
+                LearnerManager.load_version_from_existing_servable(servable)
+                ModelLoader.load(servable.model_name)
+
+
 class ModelLoader:
     """
-    This class provides the interface to load new models into TensorFlow Serving. This is implemented through a
+    This class provides the interface to load new models into TensorFlow Serving. This is implemented through a \
     gRPC call to the TFS api which triggers it to look for directories matching the name of the model specified
     """
     channel = Channel.service_channel()
@@ -33,7 +78,7 @@ class ModelLoader:
     def load(cls, model_name: str) -> None:
         """Load model
 
-        This will send the gRPC request. In particular, it will open a gRPC channel and communicate with the
+        This will send the gRPC request. In particular, it will open a gRPC channel and communicate with the \
         ReloadConfigRequest api to inform TFS of a change in configuration
 
         Parameters
