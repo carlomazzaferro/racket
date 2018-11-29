@@ -1,6 +1,7 @@
 import logging
 import os
 
+from racket.managers.project import ProjectManager
 from racket.models import db
 from racket.models.base import MLModel
 from racket.models.exceptions import ModelNotFoundError, validate_config
@@ -21,7 +22,7 @@ class LearnerManager(BaseConfigManager):
     @classmethod
     @validate_config
     def get_path(cls, name: str) -> str:
-        return os.path.join(cls.get_value('saved-models'), name)
+        return os.path.join(ProjectManager.get_value('saved-models'), name)
 
     @classmethod
     def bump_tf_version(cls, name: str, prev: str, new: str):

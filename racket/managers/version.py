@@ -18,7 +18,7 @@ class VersionManager:
         latest_smv, latest_disk = cls.max_version(name, semantic)
 
         if cls.compare(semantic, latest_smv) == 'GT':
-            return semantic, latest_disk
+            return semantic, cls.bump_disk(latest_disk)
         elif cls.compare(semantic, latest_smv) == 'EQ':
             new_v = cls.bump_version(semantic)
             p.print_warning(f'Model with version {semantic} already exists. Bumping version to {new_v}')
@@ -69,7 +69,7 @@ class VersionManager:
         v = cls.max_v_from_name(model_name)
         if not v:
             return cls.decr_version(semantic), '1'
-        return '.'.join([str(v.major), str(v.minor), str(v.patch)]), v.version_dir
+        return cls.join_([v.major, v.minor, v.patch]), v.version_dir
 
     @classmethod
     def compare(cls, v: str, vv: str) -> str:
