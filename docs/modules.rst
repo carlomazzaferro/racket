@@ -1,13 +1,15 @@
-
 Module Index
 ============
 
-Racket's CLI
-------------
 
-.. click:: racket.main:cli
-    :prog: racket
-    :show-nested:
+API
+---
+
+.. automodule:: racket.operations.schema
+    :members:
+
+.. automodule:: racket.operations.load
+    :members:
 
 
 Internals
@@ -19,8 +21,9 @@ Internals
 .. autoclass:: racket.KerasLearner
     :members:
 
-.. autoclass:: racket.operations.load.ModelLoader
-    :members:
+
+Models
+------
 
 .. automodule:: racket.models.base
     :members:

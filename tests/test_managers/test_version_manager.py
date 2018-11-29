@@ -31,7 +31,7 @@ def test_max_v(vm, init_project):
 
 
 def test_check_v(vm, init_project):
-    assert vm.check_version('1.0.1', 'n-e-m') == ('1.0.1', '1')
+    assert vm.check_version('1.0.1', 'n-e-m') == ('1.0.1', '2')
 
 
 def test_split(vm, init_project):

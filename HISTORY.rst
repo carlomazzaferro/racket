@@ -14,3 +14,9 @@ History
 * Static typing
 * Testing - 78% coverage
 
+
+0.3.0 (2018-11-20)
+------------------
+
+* Major internals refactoring
+* API unchanged, although external API was made more clear and documented

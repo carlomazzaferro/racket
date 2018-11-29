@@ -2,12 +2,12 @@
 Usage
 #####
 
-While the DemoVideo_ provides a quick overview of the functionality of ``racket``,
+While the Demo_ provides a quick overview of the functionality of ``racket``,
 this document will explain in detail the steps of the demo, and provide resources to learn more
 about the inner workings of the project.
 
 
-.. _DemoVideo: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc
+.. _Demo: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc
 
 **********************
 Starting a New Project

@@ -12,6 +12,5 @@ def test_command_line_interface(init_project):
     """Test the CLI."""
     runner = CliRunner()
     result = runner.invoke(ls)
-    print(result.stdout_bytes.decode("utf-8"))
     assert result.exit_code == 0
     assert 'model_id' in result.stdout_bytes.decode("utf-8")

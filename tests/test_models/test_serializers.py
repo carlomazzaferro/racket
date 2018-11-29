@@ -13,7 +13,9 @@ def test_keras_serializer(instantiated_learner):
     assert isinstance(instantiated_learner.sql, MLModel)
 
     p = k.path
-    assert k.keras_json == p + '_1.json'
-    assert k.keras_h5 == p + '_1.h5'
+    assert k.keras_json == p + '_2.json'
+    assert k.keras_h5 == p + '_2.h5'
     assert p in k.tf_path
     shutil.rmtree('serialized')
+
+

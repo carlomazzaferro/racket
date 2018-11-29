@@ -8,12 +8,12 @@ Welcome to racket's documentation!
    installation
    concepts
    usage
+   CLI
    endpoints
    modules
    contributing
    authors
    history
-
 
 
 Indices and tables

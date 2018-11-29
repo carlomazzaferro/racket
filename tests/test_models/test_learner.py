@@ -47,7 +47,7 @@ def test_on_trained_model(instantiated_learner, sample_data, init_project):
 
     with pytest.raises(Exception):
         instantiated_learner.store(autoload=True)
-    assert os.path.exists('serialized/keras-complex-lstm_1.h5')
+    assert os.path.exists('serialized/keras-complex-lstm_2.h5')
     shutil.rmtree('serialized')
 
 
