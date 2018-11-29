@@ -1,6 +1,7 @@
 import click
 
 from racket.operations.schema import list_models
+from racket.utils import dict_tabulate
 
 
 @click.command()
@@ -11,22 +12,17 @@ from racket.operations.schema import list_models
 @click.option('--active', '-a', help='Returns currently active model', is_flag=True)
 @click.option('--id', 'model_id', help='Filters on model id', default=None)
 def ls(name, version, m_type, active, model_id):
-    """List available models, filtering and sorting as desired
-
-    Examples
-    --------
-
+    """
     Running::
 
         $ racket ls -a  # returns the active model's metadata
 
     Will return::
 
-          model_id  model_name      major    minor    patch    version_dir  active    created_at                  model_type    scoring_fn            score
-        ----------  ------------  -------  -------  -------  -------------  --------  --------------------------  ------------  ------------------  -------
-                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    loss                9378.25
-                 1  base                0        1        0              1  True      2018-11-14 22:53:52.455635  regression    mean_squared_error  9378.25
-
+          model_id  model_name                 major    minor    patch    version_dir  active    created_at                  model_type    scoring_fn      score
+        ----------  -----------------------  -------  -------  -------  -------------  --------  --------------------------  ------------  ------------  -------
+                 4  keras-simple-regression        1        2        1              3  True      2018-11-16 19:16:48.437517  regression    loss          106.519
 
     """
-    list_models(name, version, m_type, active, model_id)
+    result = list_models(name, version, m_type, active, model_id)
+    dict_tabulate(result)
