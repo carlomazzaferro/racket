@@ -10,21 +10,26 @@ from racket.cli.serve import serve
 from racket.cli.version import version, v
 from racket.cli.ls import ls
 from racket.conf import setup_logging
+from racket.utils import register_docstrings
 
 __author__ = "Carlo Mazzaferro"
 __copyright__ = "Carlo Mazzaferro"
 __license__ = "GNU General Public License v3"
 
 
+@register_docstrings(setup_logging)
 @click.group()
 @click.option('-v', '--verbose', is_flag=True, default=False, help='Turn on debug logging')
 @click.pass_context
 def cli(context, verbose):
-    """ racket CLI tool to:
-        * Create new projects
-        * Interact with racket server.
-        * Manage model lifecycle
-    Check the help available for each command listed below.
+    """Racket's CLI. With it, you can perform pretty much all operations you desire
+        Shown below are all the possible commands you can use.
+
+        Run ::
+
+            $ racket -h
+
+        To get an overview of the possibilities.
     """
     setup_logging(verbose)
 

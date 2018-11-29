@@ -36,3 +36,10 @@ def list_dicts_to_tabulate(list_dicts: List[Dict]) -> Tuple[List, Dict.items]:
 def dict_tabulate(values: List) -> None:
     v, h = list_dicts_to_tabulate(values)
     click.echo(tabulate(v, headers=h))
+
+
+def register_docstrings(parent=None):
+    def doc_decorator(func):
+        func.__doc__ = parent.__doc__ + func.__doc__
+        return func
+    return doc_decorator
