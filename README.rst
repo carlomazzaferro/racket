@@ -43,6 +43,11 @@ enabling data scientist to go from concept to production in minutes.
 
 .. note:: **STATUS**: alpha. Active development, but breaking changes may come.
 
+Presented at PyData: video_, slides_
+
+.. _video: https://www.youtube.com/watch?v=AVj3G2MbjOM
+.. _slides: https://www.slideshare.net/PyData/restful-machine-learning-with-flask-and-tensorflow-serving-carlo-mazzaferro
+
 Features
 --------
 

@@ -73,8 +73,8 @@ class ServerManager(BaseConfigManager):
 
     @classmethod
     def static_files_dir(cls) -> str:
-        return os.path.join(os.getcwd(), 'racket/web/build/static')
+        return os.path.join(os.getcwd(), '../racket/web/build/static')
 
     @classmethod
     def react_dist_dir(cls) -> str:
-        return os.path.join(os.getcwd(), 'racket/web/build')
+        return os.path.join(os.getcwd(), '../racket/web/build')
