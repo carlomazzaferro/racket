@@ -24,7 +24,6 @@ start serving models. Of particular note, the directory will have the following 
     docker-compose.yaml
     Dockerfile
     racket.yaml
-    regression.py
     classification.py
     .gitignore
 
@@ -39,7 +38,7 @@ Add the ``-d`` flag if you'd like to run it on the background.
 Serving Your First Model
 ************************
 
-To create a new model, you can edit the ``classification.py`` or the ``regression.py``. Those files define very basic Keras models,
+To create a new model, you can edit the ``classification.py`` file. It define very basic Keras models,
 but they have a few quirks. Namely, the class definition inherits from the class\ :class:`racket.KerasLearner`, which provides
 built in functionality to store models in a suitable format for TFS, as well as functionality to store metadata and
 historical scores of the model. The method\ :meth:`racket.KerasLearner.store` is responsible for this functionality.
@@ -71,3 +70,12 @@ Refer to\ :class:`racket.KerasLearner` for more information about the inner work
 implemented, and how the inner workings are leveraged to interact with TFS
 
 
+Examples
+========
+
+We also provide a set of example projects with widely used models that
+are ready to be used. See the examples_ folder for more information
+on how to get some existing models up and running quickly.
+
+
+.. _examples:  https://github.com/carlomazzaferro/racket/tree/master/examples

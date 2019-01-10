@@ -14,15 +14,15 @@ tensorboard = TensorBoard(log_dir="logs/{}".format(time()))
 
 def get_data():
     (x_tr, y_tr), (x_te, y_te) = load_data()
-    x_tr /= 255.0
-    x_te /= 255.0
+    x_tr = x_tr/255.0
+    x_te = x_te/255.0
     return (x_tr, y_tr), (x_te, y_te)
 
 
 class KerasModel(KerasLearner):
     VERSION = '1.0.0'
-    MODEL_TYPE = 'regression'
-    MODEL_NAME = 'keras-simple-regression'
+    MODEL_TYPE = 'classification'
+    MODEL_NAME = 'base-model'
 
     def build_model(self):
         model = Sequential([
@@ -35,7 +35,7 @@ class KerasModel(KerasLearner):
                       metrics=['accuracy'])
         return model
 
-    def fit(self, x, y, x_val=None, y_val=None, epochs=15, batch_size=64):
+    def fit(self, x, y, x_val=None, y_val=None, epochs=3, batch_size=64):
         self.model.fit(x, y, epochs=epochs,
                        batch_size=batch_size, verbose=2, validation_data=(x_val, y_val),
                        callbacks=[tensorboard])

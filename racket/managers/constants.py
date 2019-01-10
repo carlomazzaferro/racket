@@ -7,7 +7,6 @@ TEMPLATE_PROJECT_FILES = [
     'template/docker-compose.yaml',
     'template/Dockerfile',
     'template/classification.py',
-    'template/regression.py',
     'template/serialized/base/1/variables/variables.data-00000-of-00001',
     'template/serialized/base/1/variables/variables.index',
     'template/serialized/base/1/saved_model.pb',
