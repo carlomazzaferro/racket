@@ -6,6 +6,6 @@ from racket.models.learner.k import KerasLearner
 
 __author__ = """Carlo Mazzaferro"""
 __email__ = 'carlo.mazzaferro@gmail.com'
-__version__ = '0.3.6'
+__version__ = '0.3.7'
 
 
