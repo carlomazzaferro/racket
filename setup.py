@@ -56,6 +56,7 @@ setup(
         ],
     },
     install_requires=install_requires,
+    extras_require={'gpu': 'tensorflow-gpu==1.11.0'},
     license="GNU General Public License v3",
     long_description=readme + '\n\n' + history,
     include_package_data=True,
