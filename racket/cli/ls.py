@@ -6,7 +6,7 @@ from racket.utils import dict_tabulate
 
 @click.command()
 @click.option('--name', '-n', help='List available models with a specific name', default=None)
-@click.option('--version', '-v', help='Retrieve modles of only a specific version, e.g. '
+@click.option('--version', '-v', help='Retrieve models of only a specific version, e.g. '
                                       'M1, m2, or p1 (M: Major, m: minor, p: patch', default=None)
 @click.option('--type', '-t', 'm_type', help='Filter on model type', is_flag=False)
 @click.option('--active', '-a', help='Returns currently active model', is_flag=True)

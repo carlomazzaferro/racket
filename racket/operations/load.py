@@ -8,6 +8,7 @@ from racket.models.exceptions import CLIError
 from racket.utils import Printer as p
 from racket.models.channel import Channel
 from racket.managers.server import ServerManager
+from racket.operations.schema import __active
 
 log = logging.getLogger('root')
 
@@ -43,11 +44,12 @@ def serve_model(model_id: int, model_name: str, version: str):
     else:
         app = ServerManager.create_app('prod', False)
         with app.app_context():
+            active = __active()
             if model_id:
                 servable = LearnerManager.query_by_id(model_id)
             else:
                 servable = LearnerManager.query_by_name_version(model_name, version)
-            if servable.active:
+            if servable.model_id == active.model_id:
                 p.print_warning('Model specified is already active')
                 return
             else:
@@ -99,7 +101,3 @@ class ModelLoader:
             p.print_success(f'Loaded model {model_name} successfully')
         else:
             p.print_error(f'Loading failed, {response.status.error_code}: {response.status.error_message}')
-
-
-if __name__ == '__main__':
-    ModelLoader.load('keras-simple-regression')

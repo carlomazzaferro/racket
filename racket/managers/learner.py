@@ -59,5 +59,7 @@ class LearnerManager(BaseConfigManager):
         cls.bump_tf_version(servable.model_name, current, new)
         app = ServerManager.create_app('prod', False)
         with app.app_context():
+            servable = db.session.query(MLModel).filter(MLModel.model_id == servable.model_id).first()
+
             servable.version_dir = new
             db.session.commit()

@@ -8,10 +8,10 @@ from racket.models.base import MLModel, MLModelInputs
 def sample_response():
     # noinspection PyArgumentList
     return [
-        MLModel(model_name='m', major=1, minor=1, patch=0, model_type='reg', active=True),
-        MLModel(model_name='m1', major=1, minor=1, patch=0, model_type='reg', active=False),
-        MLModel(model_name='m2', major=1, minor=1, patch=0, model_type='reg', active=False),
-        MLModel(model_name='m1', major=1, minor=1, patch=2, model_type='reg', active=False),
+        MLModel(model_name='m', major=1, minor=1, patch=0, model_type='reg'),
+        MLModel(model_name='m1', major=1, minor=1, patch=0, model_type='reg'),
+        MLModel(model_name='m2', major=1, minor=1, patch=0, model_type='reg'),
+        MLModel(model_name='m1', major=1, minor=1, patch=2, model_type='reg'),
     ]
 
 
@@ -28,7 +28,6 @@ def test_unfold(sample_response):
         assert 'model_id' in list(i.keys())
         assert 'major' in list(i.keys())
         assert 'version_dir' in list(i.keys())
-        assert 'active' in list(i.keys())
 
 
 def test_merge(sample_response):

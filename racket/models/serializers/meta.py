@@ -1,6 +1,6 @@
 from racket.models import db
 from racket.models.base import MLModel, ModelScores
-from racket.operations.schema import activate, deactivate
+from racket.operations.schema import activate
 from racket.managers.server import ServerManager
 from racket.models.serializers.base import ModelSerializer
 from racket.utils import Printer as p
@@ -14,7 +14,6 @@ class MetadataSerializer(ModelSerializer):
     def store(self, historic_scores: dict, sql: MLModel) -> None:
         app = ServerManager.create_app('prod', False)
         with app.app_context():
-            deactivate()
             db.session.add(sql)
             db.session.commit()
             activate(sql.model_id)

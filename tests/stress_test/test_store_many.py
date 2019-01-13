@@ -10,7 +10,8 @@ from tensorflow.keras.losses import mse
 
 from racket import KerasLearner
 from racket.managers.project import ProjectManager
-from racket.operations.schema import active_model_
+from racket.models.base import MLModel
+from racket.operations.schema import active_model_, query_by_id_, query_all_, model_filterer_
 
 
 @pytest.fixture(scope='function')
@@ -100,5 +101,17 @@ def test_create_multiple(learner, sample_data, create_proj):
         active = active_model_(name=True)
         assert isinstance(active, str)
         assert active == 'keras-other-model'
+
+        assert isinstance(query_by_id_(model_id=1, scores=False), MLModel)
+        assert isinstance(query_by_id_(model_id=4, scores=True), list)
+
+        assert len(query_all_(scores=False)) == 40
+        assert len(query_all_(scores=True)) == 79
+
+        filtered = model_filterer_('keras-complex-lstm', None, None)
+        assert len(filtered) == 35
+
+        filtered = model_filterer_(None, None, 'regression')
+        assert len(filtered) == 40
 
     os.chdir('../')

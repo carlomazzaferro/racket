@@ -5,6 +5,14 @@ from sqlalchemy.schema import ForeignKey
 from racket.models import SerialializableModel, db
 
 
+class ActiveModel(db.Model, SerialializableModel):
+    """
+    Specifies the currently active model
+    """
+    __tablename__ = 'ActiveModel'
+    model_id = db.Column(db.Integer, index=True, primary_key=True)
+
+
 class MLModel(db.Model, SerialializableModel):
     """
     The SQL DeclarativeMeta model responsible for storing a model's metadata
@@ -36,7 +44,6 @@ class MLModel(db.Model, SerialializableModel):
     minor = db.Column(db.Integer)
     patch = db.Column(db.Integer)
     version_dir = db.Column(db.String)
-    active = db.Column(db.Boolean)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     model_type = db.Column(db.String)
 

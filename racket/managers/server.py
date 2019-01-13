@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 from racket.conf import config_by_name
 from racket.managers.base import BaseConfigManager
 from racket.managers.project import ProjectManager
-from racket.models.base import MLModel, ModelScores
+from racket.models.base import MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import validate_config
 
 
@@ -34,11 +34,13 @@ class ServerManager(BaseConfigManager):
     # noinspection PyArgumentList
     @classmethod
     def create_inital_state(cls, database: SQLAlchemy):
-        m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1, active=True,
+        m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1,
                     created_at=datetime.now(), model_type='regression')
         s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
+        a = ActiveModel(model_id=1)
         database.session.add(m)
         database.session.add(s)
+        database.session.add(a)
         database.session.commit()
 
     @classmethod
