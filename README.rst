@@ -63,12 +63,23 @@ Features
 
 .. _DemoVideo:
 
+
 Demo
 ----
 
 
 .. image:: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg
     :target: https://asciinema.org/a/xxoebEfyu1bzO84hWWAams577?autoplay=1
+
+
+Roadmap
+-------
+
+* Web dashboard for model management and introspection
+* Support for Pytorch using ONNX
+* Path to production: docker-based deployments to major cloud providers
+* Security capabilities with SSL encryption
+
 
 
 Credits
