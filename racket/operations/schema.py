@@ -4,7 +4,7 @@ from racket.managers.version import VersionManager
 from racket.models import db
 from racket.models.base import MLModelInputs, MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import ModelNotFoundError
-from racket.operations.utils import merge_and_unfold
+from racket.operations.utils import merge_and_unfold, unfold
 
 
 def activate(model_id: int) -> None:
@@ -15,13 +15,21 @@ def activate(model_id: int) -> None:
         db.session.commit()
 
 
-def active_model_(name: bool = None, scores: bool = False) -> Union[str, dict]:
+def active_model_name_():
+    app = ServerManager.create_app('prod', False)
+    with app.app_context():
+        active = __active()
+        active = db.session.query(MLModel.model_name).filter(MLModel.model_id == active.model_id).one()
+        return active[0]
+
+
+def active_model_(scores: bool = False) -> Union[MLModel, List[MLModel]]:
     """
     Query the model id of the currently active model
 
     Returns
     -------
-    str
+    active model
         Unique model identifier
     """
 
@@ -32,10 +40,7 @@ def active_model_(name: bool = None, scores: bool = False) -> Union[str, dict]:
             return db.session.query(MLModel, ModelScores).filter(MLModel.model_id == active.model_id) \
                 .filter(ModelScores.model_id == MLModel.model_id) \
                 .all()
-        if name:
-            active = db.session.query(MLModel.model_name).filter(MLModel.model_id == active.model_id).one()
-            return active[0]
-        return active.as_dict()
+        return active
 
 
 def __active() -> ActiveModel:
@@ -63,7 +68,7 @@ def current_schema_() -> dict:
     return schema
 
 
-def query_by_id_(model_id: int, scores: bool = False) -> MLModel:
+def query_by_id_(model_id: int, scores: bool = False) -> Union[List, MLModel]:
     app = ServerManager.create_app('prod', False)
     with app.app_context():
         if scores:
@@ -76,7 +81,7 @@ def query_by_id_(model_id: int, scores: bool = False) -> MLModel:
         return servable
 
 
-def model_filterer_(name, version, m_type):
+def model_filterer_(name: str = None, version: str = None, m_type: str = None, scores: bool = False) -> list:
     fs = []
     if name:
         fs.append(MLModel.model_name == name)
@@ -87,11 +92,11 @@ def model_filterer_(name, version, m_type):
         fs.append(MLModel.model_type == m_type)
     app = ServerManager.create_app('prod', False)
     with app.app_context():
-        query = db.session.query(MLModel) \
-            .filter(*fs) \
-            .filter(ModelScores.model_id == MLModel.model_id)
-        print(query)
-        return query.all()
+        if scores:
+            return db.session.query(MLModel, ModelScores).filter(*fs) \
+                .filter(ModelScores.model_id == MLModel.model_id) \
+                .all()
+        return db.session.query(MLModel).filter(*fs).all()
 
 
 def query_all_(scores: bool = False) -> list:
@@ -155,15 +160,21 @@ def list_models(name: str = None,
     List[dict]
         Results is printed to stdout
     """
+    scores = not unique
+    result_set = None
+
+    if not all([model_id, name, version, m_type, active]):
+        result_set = query_all_(scores=scores)
 
     if active:
-        return merge_and_unfold(active_model_(scores=not unique), filter_keys=['id'])
+        result_set = active_model_(scores=scores)
 
     if model_id:
-        return merge_and_unfold(query_by_id_(model_id, scores=not unique), filter_keys=['id'])
+        result_set = query_by_id_(model_id, scores=scores)
 
     if any([name, m_type, version]):
         result_set = model_filterer_(name, version, m_type)
+    if scores:
         return merge_and_unfold(result_set, filter_keys=['id'])
-
-    return merge_and_unfold(query_all_(scores=not unique))
+    else:
+        return unfold([result_set] if not isinstance(result_set, list) else result_set, filter_keys=['id'])

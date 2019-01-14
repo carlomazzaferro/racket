@@ -61,8 +61,9 @@ class VersionManager:
                 .filter(MLModel.model_name == model_name) \
                 .order_by(MLModel.major.desc(),
                           MLModel.minor.desc(),
-                          MLModel.patch.desc()).first()
-            return version
+                          MLModel.patch.desc())
+            print(version.all())
+            return version.first()
 
     @classmethod
     def max_version(cls, model_name: str, semantic: str) -> Tuple[str, str]:

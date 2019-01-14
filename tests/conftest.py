@@ -1,4 +1,5 @@
 import shutil
+import os
 
 import numpy
 import pytest
@@ -38,8 +39,8 @@ def instantiated_learner():
 def init_project():
     ProjectManager.init('tests', 'sample_project')
     yield
-    shutil.rmtree('tests/sample_project')
-    # shutil.rmtree('serialized')
+    os.chdir('../')
+    shutil.rmtree('sample_project')
 
 
 @pytest.fixture

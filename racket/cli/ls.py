@@ -11,7 +11,11 @@ from racket.utils import dict_tabulate
 @click.option('--type', '-t', 'm_type', help='Filter on model type', is_flag=False)
 @click.option('--active', '-a', help='Returns currently active model', is_flag=True)
 @click.option('--id', 'model_id', help='Filters on model id', default=None)
-def ls(name, version, m_type, active, model_id):
+@click.option('--unique', '-u', 'unique', help='Returns only unique models, disregarding the fact'
+                                               'that there may be more than one entry for each model. '
+                                               'This happens when a model is trained used more than one'
+                                               'scoring function', is_flag=True)
+def ls(name, version, m_type, active, model_id, unique):
     """
     Running::
 
@@ -24,5 +28,5 @@ def ls(name, version, m_type, active, model_id):
                  4  keras-simple-regression        1        2        1              3  True      2018-11-16 19:16:48.437517  regression    loss          106.519
 
     """
-    result = list_models(name, version, m_type, active, model_id)
+    result = list_models(name, version, m_type, active, model_id, unique)
     dict_tabulate(result)

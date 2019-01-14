@@ -2,6 +2,7 @@ import shutil
 
 from racket.models.base import MLModel
 from racket.models.serializers.k import KerasSerializer
+from racket.models.serializers.meta import MetadataSerializer
 
 
 def test_keras_serializer(instantiated_learner):
@@ -19,3 +20,10 @@ def test_keras_serializer(instantiated_learner):
     shutil.rmtree('serialized')
 
 
+def test_metadata_serializer():
+    scores = {'auc': 0.9, 'accuracy': 1}
+    # noinspection PyArgumentList
+    model = MLModel(model_id=45, model_name='test', major=1, minor=1, patch=1, version_dir=3,
+                    model_type='regression')
+    md = MetadataSerializer('tests/sample_project', 'test')
+    md.store(scores, model)

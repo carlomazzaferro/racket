@@ -29,7 +29,7 @@ class ServerTarget:
         return cls.format(result)
 
     @classmethod
-    def format(cls, result):
+    def format(cls, result) -> dict:
         result = numpy.array(result.outputs['y'].float_val)
         return {'result': result}
 

@@ -35,6 +35,7 @@ def test_concrete_methods(instantiated_learner, init_project):
 
 
 # noinspection PyProtectedMember
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_on_trained_model(instantiated_learner, sample_data, init_project):
     x_tr, x_te, y_tr, y_te = sample_data
 

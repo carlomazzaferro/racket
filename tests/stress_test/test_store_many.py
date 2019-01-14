@@ -11,7 +11,7 @@ from tensorflow.keras.losses import mse
 from racket import KerasLearner
 from racket.managers.project import ProjectManager
 from racket.models.base import MLModel
-from racket.operations.schema import active_model_, query_by_id_, query_all_, model_filterer_
+from racket.operations.schema import active_model_, query_by_id_, query_all_, model_filterer_, active_model_name_
 
 
 @pytest.fixture(scope='function')
@@ -59,15 +59,16 @@ def assert_query_works(vals):
     app = ServerManager.create_app('prod', False)
     with app.app_context():
         active = active_model_()
-        a = isinstance(active, dict)
-        b = active['model_id'] == int(vals)
-        c = active['version_dir'] == str(vals)
+        a = isinstance(active, MLModel)
+        b = active.model_id == int(vals)
+        c = active.version_dir == str(vals)
     if all([a, b, c]):
         return True
     else:
         return False
 
 
+# @pytest.mark.skip(reason="no way of currently testing this")
 def test_create_multiple(learner, sample_data, create_proj):
     patch_bump = ['.'.join(['0', '0', str(i + 1)]) for i in range(15)]
     minor_bump = ['.'.join(['0', str(i + 1), '5']) for i in range(10)]
@@ -98,7 +99,7 @@ def test_create_multiple(learner, sample_data, create_proj):
     from racket.managers.server import ServerManager
     app = ServerManager.create_app('prod', False)
     with app.app_context():
-        active = active_model_(name=True)
+        active = active_model_name_()
         assert isinstance(active, str)
         assert active == 'keras-other-model'
 

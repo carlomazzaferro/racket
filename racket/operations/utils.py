@@ -14,6 +14,8 @@ def merge_result_sequences(lists):
 
 
 def merge_and_unfold(result, keep_keys=None, filter_keys=None):
+    if not isinstance(result[0], tuple):
+        return unfold(result, keep_keys, filter_keys)
     r = len(result[0])
     unfolded = [unfold([d[i] for d in result], keep_keys=keep_keys, filter_keys=filter_keys)
                 for i in range(r)]
