@@ -62,7 +62,6 @@ class VersionManager:
                 .order_by(MLModel.major.desc(),
                           MLModel.minor.desc(),
                           MLModel.patch.desc())
-            print(version.all())
             return version.first()
 
     @classmethod

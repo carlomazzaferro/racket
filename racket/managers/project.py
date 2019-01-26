@@ -1,10 +1,10 @@
 import os
 import sys
 import pkgutil
-from datetime import datetime
+import json
 
 from racket.managers.base import BaseConfigManager
-from racket.managers.constants import TEMPLATE_PROJECT_FILES, TEMPLATE_PROJECT_DIRS
+from racket.managers.constants import TEMPLATE_PROJECT_FILES, TEMPLATE_PROJECT_DIRS, WEB_MANIFEST
 from racket.models.exceptions import NotInitializedError
 
 
@@ -49,20 +49,43 @@ class ProjectManager(BaseConfigManager):
     @classmethod
     def create_template(cls) -> None:
         cls.create_subdirs()
+        cls.copy_dist_files()
+        cls.create_web_dir()
+
+    @classmethod
+    def copy_dist_files(cls) -> None:
         for file in TEMPLATE_PROJECT_FILES:
             data = pkgutil.get_data('racket', file)
-            file_path = file.replace('template/', '')
-            try:
-                with open(os.path.join(cls.RACKET_DIR, file_path), 'w') as f:
-                    f.write(data.decode('utf-8'))
-            except UnicodeDecodeError:
-                with open(os.path.join(cls.RACKET_DIR, file_path), 'wb') as f:
-                    f.write(data)
+            cls._copy_file(file, data)
+
+    @classmethod
+    def create_web_dir(cls) -> None:
+        for k, v in WEB_MANIFEST.items():
+            data = pkgutil.get_data('racket', v)
+            cls._copy_file(v, data)
+
+        asset_manifest = WEB_MANIFEST['assets']
+        data = pkgutil.get_data('racket', asset_manifest)
+        extras = json.loads(data, encoding='utf-8').values()
+        for f in extras:
+            real_path = os.path.join('template/web', f[1:])
+            data = pkgutil.get_data('racket', real_path)
+            cls._copy_file(real_path, data)
 
     @classmethod
     def create_subdirs(cls) -> None:
         for path in TEMPLATE_PROJECT_DIRS:
             os.makedirs(os.path.join(cls.RACKET_DIR, path), exist_ok=True)
+
+    @classmethod
+    def _copy_file(cls, file, data, replace_path=''):
+        file_path = file.replace('template/', replace_path)
+        try:
+            with open(os.path.join(cls.RACKET_DIR, file_path), 'w') as f:
+                f.write(data.decode('utf-8'))
+        except UnicodeDecodeError:
+            with open(os.path.join(cls.RACKET_DIR, file_path), 'wb') as f:
+                f.write(data)
 
     @classmethod
     def get_models(cls) -> list:

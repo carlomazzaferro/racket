@@ -2,17 +2,16 @@ import os
 from datetime import datetime
 
 from flask import Flask, send_from_directory
-from sqlalchemy.exc import IntegrityError
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 
 from racket.conf import config_by_name
-from racket.managers.base import BaseConfigManager
 from racket.managers.project import ProjectManager
 from racket.models.base import MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import validate_config
 
 
-class ServerManager(BaseConfigManager):
+class ServerManager(ProjectManager):
     # client settings
     DEFAULT_TF_SERVER_NAME: str = 'localhost'
     DEFAULT_TF_SERVER_PORT: int = 8501
@@ -46,9 +45,14 @@ class ServerManager(BaseConfigManager):
     @classmethod
     def create_app(cls, env: str, clean: bool) -> Flask:
         app = Flask(__name__,
-                    static_folder=cls.static_files_dir(),
-                    template_folder=cls.react_dist_dir()
+                    static_folder=cls.static_files_dir() if not env == 'test' else None,
+                    template_folder=cls.template_files_dir() if not env == 'test' else None
                     )
+
+        @app.route('/')
+        def index():
+            return send_from_directory(cls.template_files_dir(), "index.html")
+
         app.config.from_object(config_by_name[env])
         app.config['SQLALCHEMY_DATABASE_URI'] = ProjectManager.db_path()
 
@@ -61,10 +65,6 @@ class ServerManager(BaseConfigManager):
             cls.create_db(db, clean)
         app.register_blueprint(api_bp, url_prefix='/api/v1')
 
-        @app.route('/')
-        def index():
-            return send_from_directory(cls.react_dist_dir(), "index.html")
-
         return app
 
     @classmethod
@@ -74,9 +74,9 @@ class ServerManager(BaseConfigManager):
         app.run(host, port)
 
     @classmethod
-    def static_files_dir(cls) -> str:
-        return os.path.join(os.getcwd(), '../racket/web/build/static')
+    def static_files_dir(cls, dirpath: str = None) -> str:
+        return os.path.join(os.getcwd(), cls.get_value('dashboard')['STATIC_FILES_DIR'])
 
     @classmethod
-    def react_dist_dir(cls) -> str:
-        return os.path.join(os.getcwd(), '../racket/web/build')
+    def template_files_dir(cls, dirpath: str = None) -> str:
+        return os.path.join(os.getcwd(), cls.get_value('dashboard')['TEMPLATE_FILES_DIR'])
