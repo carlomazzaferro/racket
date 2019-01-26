@@ -11,11 +11,10 @@ include racket/template/serialized/base/*
 include racket/template/serialized/base/1/*
 include racket/template/serialized/base/1/variables/*
 
-include racket/web/build/*
-include racket/web/build/static/*
-include racket/web/build/static/css/*
-include racket/web/build/static/js/*
-include racket/web/build/static/media/*
+include racket/template/web/*
+include racket/template/web/static/*
+include racket/template/web/static/css/*
+include racket/template/web/static/js/*
 recursive-include requirements *.txt
 
 recursive-include docs *.rst conf.py Makefile make.bat *.jpg *.png *.gif

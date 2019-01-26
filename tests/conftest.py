@@ -11,6 +11,16 @@ from tensorflow.keras.losses import mse
 from racket import KerasLearner
 from racket.managers.project import ProjectManager
 
+from racket.managers.server import ServerManager
+
+
+@pytest.fixture(scope='function')
+def app():
+    app = ServerManager.create_app('test', False)
+    app.port = '8000'
+    app.hostname = '127.0.0.1'
+    return app
+
 
 @pytest.fixture(scope='session')
 def instantiated_learner():

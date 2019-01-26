@@ -1,8 +1,9 @@
 from typing import Union, List
+
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
 from racket.models import db
-from racket.models.base import MLModelInputs, MLModel, ModelScores, ActiveModel
+from racket.models.base import MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import ModelNotFoundError
 from racket.operations.utils import merge_and_unfold, unfold
 
@@ -52,6 +53,7 @@ def __active() -> ActiveModel:
 
 
 def current_schema_() -> dict:
+    # TODO: implement this
     """
     Get the input specification of the currently active model
 
@@ -59,13 +61,14 @@ def current_schema_() -> dict:
     -------
     schema: dict
         Dictionary of the specs
-    """
 
     app = ServerManager.create_app('prod', False)
     model = active_model_()
     with app.app_context():
         schema = db.session.query(MLModelInputs).filter(MLModelInputs.model_id == model).one()
     return schema
+    """
+    raise NotImplementedError
 
 
 def query_by_id_(model_id: int, scores: bool = False) -> Union[List, MLModel]:
@@ -86,8 +89,10 @@ def model_filterer_(name: str = None, version: str = None, m_type: str = None, s
     if name:
         fs.append(MLModel.model_name == name)
     if version:
-        c, v = VersionManager.parse_cli_v(version)
-        fs.append(getattr(MLModel, c) == v)
+        M, m, p = VersionManager.semantic_to_tuple(version)
+        fs.append(MLModel.major == M)
+        fs.append(MLModel.minor == m)
+        fs.append(MLModel.patch == p)
     if m_type:
         fs.append(MLModel.model_type == m_type)
     app = ServerManager.create_app('prod', False)
@@ -122,6 +127,41 @@ def query_all_(scores: bool = False) -> list:
         else:
             query = db.session.query(MLModel)
         return query.all()
+
+
+def query_scores_(model_id: int = None, name: str = None, version: str = None) -> List:
+    """
+    Query model scores by model_id or model name, version
+    Parameters
+    ----------
+    version : str
+        Model version in the format: "major.minor.patch". Ignored if model_id is passed
+    name : str
+        Nmae of the model. Must be provided if version is provided. Ignored if model_id is passed
+    model_id : int
+        Unique ID of the model
+
+    Returns
+    -------
+    models: List
+        List of model scores
+    """
+    app = ServerManager.create_app('prod', False)
+    with app.app_context():
+        if not model_id:
+            if not all([name, version]):
+                raise ValueError('Must provide both model name and version if not giving model_id')
+            M, m, p = VersionManager.semantic_to_tuple(version)
+            model = db.session.query(MLModel).filter(MLModel.model_name == name,
+                                                     MLModel.major == M,
+                                                     MLModel.minor == m,
+                                                     MLModel.patch == p,
+                                                     ).one_or_none()
+            if not model:
+                raise ValueError(f'No models with name: {name}, version: {version} found.')
+            model_id = model.model_id
+
+        return db.session.query(ModelScores).filter(ModelScores.model_id == model_id).all()
 
 
 def list_models(name: str = None,
