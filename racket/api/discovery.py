@@ -1,23 +1,45 @@
 from flask import jsonify
 from flask_restplus import Namespace, Resource, fields
-from racket.models import db
-from racket.models.base import MLModel
+from racket.operations.utils import unfold
+
+discover_ns = Namespace('model', description='Inference endpoint')
+ds = discover_ns.model('model', {'max': fields.Integer, 'available_only': fields.Boolean})
 
 
-discover_ns = Namespace('discover', description='Inference endpoint')
-ds = discover_ns.model('discover', {'max': fields.Integer, 'available_only': fields.Boolean})
+parser = discover_ns.parser()
+parser.add_argument('model_id', type=int, location='args', help='Model ID to be served')
+parser.add_argument('name', type=str, location='args', help='Model ID to be served')
+parser.add_argument('version', type=str, location='args', help='Model version, in the format "major.minor.patch"')
 
 
 @discover_ns.route('/active')
-class Discover(Resource):
+class Actve(Resource):
     def get(self):
         from racket.operations.schema import active_model_
-        return jsonify(active_model_(name=None))
+        return jsonify(active_model_().as_dict())
 
 
-@discover_ns.route('/available')
-class DiscoverAvailable(Resource):
+@discover_ns.route('/all')
+class All(Resource):
+    @discover_ns.expect(parser)
     def get(self):
-        from racket.operations.schema import active_model_
-        active = db.session.query(MLModel).filter(MLModel.model_id == active_model_()).one()
-        return jsonify(active.as_dict())
+        args = parser.parse_args()
+        from racket.operations.schema import model_filterer_, query_by_id_
+        if args['model_id']:
+            return jsonify(query_by_id_(args['model_id']).as_dict())
+        return jsonify(unfold(model_filterer_(name=args['name'], version=args['version'])))
+
+
+@discover_ns.route('/scores')
+class ScoresId(Resource):
+    @discover_ns.expect(parser)
+    def get(self):
+        args = parser.parse_args()
+        from racket.operations.schema import query_scores_
+        return jsonify(unfold(query_scores_(model_id=args['model_id'], name=args['name'], version=args['version'])))
+
+
+
+
+
+
