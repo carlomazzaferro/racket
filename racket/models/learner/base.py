@@ -3,7 +3,6 @@ import logging
 import os
 
 from racket.managers.learner import LearnerManager
-
 from racket.managers.version import VersionManager
 from racket.models.base import MLModel
 
@@ -108,6 +107,7 @@ class Learner(abc.ABC):
         MLModel
             The SQLAlchemy representation of the model
         """
-        values = {k: getattr(self, k) for k in ['model_name', 'model_type', 'major', 'minor', 'patch', 'version_dir']}
+        values = {k: getattr(self, k) for k in
+                  ['model_name', 'model_type', 'major', 'minor', 'patch', 'version_dir', 'parameters']}
         # noinspection PyArgumentList
         return MLModel(**values)

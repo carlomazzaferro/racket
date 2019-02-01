@@ -1,3 +1,4 @@
+import json
 import collections
 from typing import Iterable
 
@@ -58,6 +59,17 @@ class KerasLearner(Learner):
     @historic_scores.setter
     def historic_scores(self, d: dict) -> None:
         self._val_loss = d
+
+    @property
+    def parameters(self):
+        """Model parameters
+
+        Returns
+        -------
+        dict
+            Dictionary of containing the parameters of the model
+        """
+        return json.dumps(self.model.history.params)
 
     def scores(self, x: Iterable, y: Iterable) -> object:
         """Evaluate scores on a test set
