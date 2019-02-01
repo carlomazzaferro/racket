@@ -46,6 +46,7 @@ class MLModel(db.Model, SerialializableModel):
     version_dir = db.Column(db.String)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow())
     model_type = db.Column(db.String)
+    parameters = db.Column(db.String)
 
 
 class MLModelInputs(db.Model, SerialializableModel):

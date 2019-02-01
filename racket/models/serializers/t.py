@@ -37,6 +37,10 @@ class TFSerializerBase(ModelSerializer):
     def keras_h5(self) -> str:
         return self.keras_json.replace('.json', '.h5')
 
+    @property
+    def keras_history(self) -> str:
+        return self.path + '_' + 'history' + '_' + self.version_dir + '.json'
+
 
 class TFSerializer(TFSerializerBase):
     # TODO: make this builder more flexible as far as defining the signature def inputs

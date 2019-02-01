@@ -24,3 +24,4 @@ class MetadataSerializer(ModelSerializer):
                 db.session.add(scoring_entry)
             db.session.commit()
             p.print_success(f'Successfully stored metadata for model: {self.model_name}')
+

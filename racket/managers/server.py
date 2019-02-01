@@ -34,7 +34,7 @@ class ServerManager(ProjectManager):
     @classmethod
     def create_inital_state(cls, database: SQLAlchemy):
         m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1,
-                    created_at=datetime.now(), model_type='regression')
+                    created_at=datetime.now(), model_type='regression', parameters="{'batch_size': 64, 'epochs': 3}")
         s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
         a = ActiveModel(model_id=1)
         database.session.add(m)
@@ -74,9 +74,9 @@ class ServerManager(ProjectManager):
         app.run(host, port)
 
     @classmethod
-    def static_files_dir(cls, dirpath: str = None) -> str:
+    def static_files_dir(cls) -> str:
         return os.path.join(os.getcwd(), cls.get_value('dashboard')['STATIC_FILES_DIR'])
 
     @classmethod
-    def template_files_dir(cls, dirpath: str = None) -> str:
+    def template_files_dir(cls) -> str:
         return os.path.join(os.getcwd(), cls.get_value('dashboard')['TEMPLATE_FILES_DIR'])
