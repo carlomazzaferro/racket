@@ -20,7 +20,8 @@ def init(path: str, name: str) -> None:
             classification.py     # Classification starter file
             racket.yaml           # Main project config file
             .gitignore            # Just in case
-            Dockerfile            # TFS' Dockerfile
+            Dockerfile.tfserving  # TFS' Dockerfile]
+            Dockerfile.racket     # racket's Dockerfile. To be implemented
             docker-compose.yaml   # Docker-compose to start up TFS
             serialized/           # Where the serialized models will be stored
 

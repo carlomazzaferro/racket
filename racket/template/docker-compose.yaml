@@ -3,11 +3,23 @@ version: '2'
 services:
     tf-serving:
         container_name: tf.txt-serving
+
+        # TODO: remote volume (EFS/S3/EBS) option
         volumes:
           - ./serialized:/models
         build:
             context: .
+            dockerfile: Dockerfile.tfserving
         ports:
           - 8500:8500
           - 8501:8501
+
+     # TODO: docker-based client for separate deployments
+#    racket:
+#        container_name: racket
+#        build:
+#            context: .
+#            dockerfile: Dockerfile.racket
+#        ports:
+#          - 8000:8000
 
