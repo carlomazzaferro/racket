@@ -13,7 +13,7 @@ parser.add_argument('version', type=str, location='args', help='Model version, i
 
 
 @discover_ns.route('/active')
-class Actve(Resource):
+class Active(Resource):
     def get(self):
         from racket.operations.schema import active_model_
         return jsonify(active_model_().as_dict())
@@ -37,6 +37,25 @@ class ScoresId(Resource):
         args = parser.parse_args()
         from racket.operations.schema import query_scores_
         return jsonify(unfold(query_scores_(model_id=args['model_id'], name=args['name'], version=args['version'])))
+
+
+@discover_ns.route('/historic')
+class EpochsLossAcc(Resource):
+    @discover_ns.expect(parser)
+    def get(self):
+        args = parser.parse_args()
+        from racket.operations.schema import historic_scores_
+        return jsonify(historic_scores_(model_id=args['model_id'], name=args['name'], version=args['version']))
+
+
+@discover_ns.route('/parameters')
+class Parameters(Resource):
+    @discover_ns.expect(parser)
+    def get(self):
+        args = parser.parse_args()
+        from racket.operations.schema import query_params_
+        return jsonify(query_params_(model_id=args['model_id'], name=args['name'], version=args['version']))
+
 
 
 

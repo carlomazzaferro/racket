@@ -1,7 +1,11 @@
-from typing import Union, List
+import os
+import ast
+import json
+from typing import Union, List, Dict
 
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
+from racket.managers.project import ProjectManager
 from racket.models import db
 from racket.models.base import MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import ModelNotFoundError
@@ -129,15 +133,46 @@ def query_all_(scores: bool = False) -> list:
         return query.all()
 
 
-def query_scores_(model_id: int = None, name: str = None, version: str = None) -> List:
+def historic_scores_(model_id: int = None, name: str = None, version: str = None) -> Dict:
     """
-    Query model scores by model_id or model name, version
+    Get the historic scores for a model, in the form of::
+
+        { val_loss: [...], val_acc: [..], acc: [...], loss: [...] }
+
+    Where the arrays are the respective measures at the end of each epoch
+
     Parameters
     ----------
     version : str
         Model version in the format: "major.minor.patch". Ignored if model_id is passed
     name : str
-        Nmae of the model. Must be provided if version is provided. Ignored if model_id is passed
+        Name of the model. Must be provided if version is provided. Ignored if model_id is passed
+    model_id : int
+        Unique ID of the model
+
+    Returns
+    -------
+    scores: dict
+        Dictionary of key: score name, value: score array
+    """
+
+    model = _model_from_name_ver_id(model_id, name, version)
+    base_path = ProjectManager.get_value('saved-models')
+    hs_path = os.path.join(base_path, model.model_name + '_' + 'history' + '_' + model.version_dir + '.json')
+    with open(hs_path, 'r') as scores:
+        return json.load(scores)
+
+
+def query_scores_(model_id: int = None, name: str = None, version: str = None) -> List:
+    """
+    Query model scores by model_id or model name, version
+
+    Parameters
+    ----------
+    version : str
+        Model version in the format: "major.minor.patch". Ignored if model_id is passed
+    name : str
+        Name of the model. Must be provided if version is provided. Ignored if model_id is passed
     model_id : int
         Unique ID of the model
 
@@ -146,22 +181,43 @@ def query_scores_(model_id: int = None, name: str = None, version: str = None) -
     models: List
         List of model scores
     """
-    app = ServerManager.create_app('prod', False)
-    with app.app_context():
-        if not model_id:
-            if not all([name, version]):
-                raise ValueError('Must provide both model name and version if not giving model_id')
-            M, m, p = VersionManager.semantic_to_tuple(version)
-            model = db.session.query(MLModel).filter(MLModel.model_name == name,
-                                                     MLModel.major == M,
-                                                     MLModel.minor == m,
-                                                     MLModel.patch == p,
-                                                     ).one_or_none()
-            if not model:
-                raise ValueError(f'No models with name: {name}, version: {version} found.')
-            model_id = model.model_id
+    model = _model_from_name_ver_id(model_id, name, version)
+    return db.session.query(ModelScores).filter(ModelScores.model_id == model.model_id).all()
 
-        return db.session.query(ModelScores).filter(ModelScores.model_id == model_id).all()
+
+def _model_from_name_ver_id(model_id: int = None, name: str = None, version: str = None) -> MLModel:
+    if model_id:
+        model = query_by_id_(model_id, scores=False)
+    else:
+        try:
+            model = model_filterer_(name, version, scores=False)[0]
+        except IndexError:
+            model = []
+    if not model:
+        raise ValueError(f'No models with name: {name}, version: {version}, or id: {model_id} found')
+    return model
+
+
+def query_params_(model_id: int = None, name: str = None, version: str = None) -> Dict:
+    """
+    Query model parameters by model_id or model name, version
+
+    Parameters
+    ----------
+    version : str
+        Model version in the format: "major.minor.patch". Ignored if model_id is passed
+    name : str
+        Name of the model. Must be provided if version is provided. Ignored if model_id is passed
+    model_id : int
+        Unique ID of the model
+
+    Returns
+    -------
+    models: dict
+        Parameters of the model as dictionary
+    """
+    model = _model_from_name_ver_id(model_id, name, version)
+    return ast.literal_eval(model.as_dict()['parameters'])
 
 
 def list_models(name: str = None,
