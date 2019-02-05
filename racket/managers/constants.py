@@ -1,11 +1,13 @@
 TEMPLATE_PROJECT_DIRS = [
     'serialized/base/1/variables/',
     'web/static/css',
+    'extras/',
     'web/static/js',
 ]
 
 TEMPLATE_PROJECT_FILES = [
     'template/.gitignore',
+    'template/extras/TEST.jpg',
     'template/docker-compose.yaml',
     'template/Dockerfile.tfserving',
     'template/Dockerfile.racket',
