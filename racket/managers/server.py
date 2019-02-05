@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 
 from flask import Flask, send_from_directory
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
@@ -54,6 +55,7 @@ class ServerManager(ProjectManager):
             return send_from_directory(cls.template_files_dir(), "index.html")
 
         app.config.from_object(config_by_name[env])
+        CORS(app, resources={r"/*": {"origins": "*"}}, allow_headers="*")
         app.config['SQLALCHEMY_DATABASE_URI'] = ProjectManager.db_path()
 
         from racket.api import api_bp

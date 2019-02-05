@@ -3,6 +3,7 @@ tensorflow-serving-api==1.11.1
 grpcio==1.16.0
 Flask==1.0.2
 flask-restplus==0.12.1
+Flask-Cors==3.0.7
 Flask-SQLAlchemy==2.3.2
 Click>=6.0
 pyyaml>=4.2b1
