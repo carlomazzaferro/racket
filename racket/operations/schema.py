@@ -217,7 +217,7 @@ def query_params_(model_id: int = None, name: str = None, version: str = None) -
         Parameters of the model as dictionary
     """
     model = _model_from_name_ver_id(model_id, name, version)
-    return ast.literal_eval(model.as_dict()['parameters'])
+    return json.loads(model.as_dict()['parameters'])
 
 
 def list_models(name: str = None,
