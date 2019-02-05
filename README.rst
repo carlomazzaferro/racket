@@ -68,8 +68,8 @@ Demo
 ----
 
 
-.. image:: https://asciinema.org/a/dinc7mQrUfO2JqFhV3iyYllIc.svg
-    :target: https://asciinema.org/a/xxoebEfyu1bzO84hWWAams577?autoplay=1
+.. image:: https://asciinema.org/a/pqGkxdzvGRzmKG8SZ7q35WvJW.svg
+    :target: https://asciinema.org/a/pqGkxdzvGRzmKG8SZ7q35WvJW?autoplay=1
 
 
 Roadmap
