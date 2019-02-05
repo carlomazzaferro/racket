@@ -189,6 +189,8 @@ def _model_from_name_ver_id(model_id: int = None, name: str = None, version: str
     if model_id:
         model = query_by_id_(model_id, scores=False)
     else:
+        if not name or not version:
+            raise ValueError('If model id is not provided, must provide name and version')
         try:
             model = model_filterer_(name, version, scores=False)[0]
         except IndexError:
