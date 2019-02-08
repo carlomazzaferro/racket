@@ -1,0 +1,6 @@
+export const LOAD_DATA = 'LOAD_DATA';
+export const LOAD_ACTIVE = 'LOAD_ACTIVE';
+export const LOAD_SELECTED = 'LOAD_SELECTED';
+export const LOAD_MODEL_HISTORY = 'LOAD_MODEL_HISTORY';
+export const COLLAPSE_HEADER = 'COLLAPSE_HEADER';
+export const SET_DATE_FILTERS = 'SET_DATE_FILTERS';
