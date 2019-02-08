@@ -3,18 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^3.4.0",
+    "ant-design-pro": "^2.2.1",
     "antd": "^3.13.0",
-    "flow-bin": "^0.89.0",
-    "react": "^16.6.1",
-    "react-dom": "^16.6.1",
-    "react-scripts": "2.1.1"
+    "craco-antd": "^1.10.0",
+    "craco-less": "^1.6.0",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "path-to-regexp": "^3.0.0",
+    "react": "^16.7.0",
+    "react-countup": "^4.0.0",
+    "react-dom": "^16.7.0",
+    "react-perfect-scrollbar": "^1.4.4",
+    "react-redux": "^6.0.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.3",
+    "recharts": "^1.4.2",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && cp -R build/ ../template/web",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "flow": "flow"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test --env=jsdom",
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -26,6 +39,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "recharts": "^1.4.1"
+    "babel-plugin-import": "^1.11.0"
   }
 }
