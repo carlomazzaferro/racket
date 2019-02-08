@@ -35,7 +35,7 @@ class ServerManager(ProjectManager):
     @classmethod
     def create_inital_state(cls, database: SQLAlchemy):
         m = MLModel(model_id=1, model_name='base', major=0, minor=1, patch=0, version_dir=1,
-                    created_at=datetime.now(), model_type='regression', parameters="{'batch_size': 64, 'epochs': 3}")
+                    created_at=datetime.now(), model_type='regression', parameters='{"batch_size": 64, "epochs": 3}')
         s = ModelScores(id=1, model_id=1, scoring_fn='loss', score=9378.2468363119)
         a = ActiveModel(model_id=1)
         database.session.add(m)
