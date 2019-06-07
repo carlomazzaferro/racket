@@ -1,5 +1,9 @@
 import logging
+from gevent import monkey
+monkey.patch_all()
 
+import grpc.experimental.gevent
+grpc.experimental.gevent.init_gevent()
 import grpc
 from tensorflow_serving.apis import model_service_pb2_grpc
 from tensorflow_serving.apis import prediction_service_pb2_grpc

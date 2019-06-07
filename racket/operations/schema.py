@@ -1,11 +1,10 @@
-import os
-import ast
 import json
+import os
 from typing import Union, List, Dict
 
+from racket.managers.project import ProjectManager
 from racket.managers.server import ServerManager
 from racket.managers.version import VersionManager
-from racket.managers.project import ProjectManager
 from racket.models import db
 from racket.models.base import MLModel, ModelScores, ActiveModel
 from racket.models.exceptions import ModelNotFoundError
