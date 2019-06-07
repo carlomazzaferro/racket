@@ -1,18 +1,25 @@
-FROM python:3.6
+FROM tensorflow/serving
 
-COPY . server
-WORKDIR server/
+# Expose ports
+# gRPC
+EXPOSE 8500
 
-#ADD requirements/base.txt .
+# REST
+EXPOSE 8501
 
-RUN pip3 install -r requirements/base.txt
-RUN find . -name '*.pyc' -delete
+# Set where models should be stored in the container
+ENV MODEL_BASE_PATH=/models
+RUN mkdir -p ${MODEL_BASE_PATH}
 
+# The only required piece is the model name in order to differentiate endpoints
+ENV MODEL_NAME=base
 
-RUN pip3 install -e .
-RUN python setup.py install
+# Create a script that runs the model server so we can use environment variables
+# while also passing in arguments from the docker command line
+RUN echo '#!/bin/bash \n\n\
+tensorflow_model_server --port=8500 --rest_api_port=8501 \
+--model_name=${MODEL_NAME} --model_base_path=${MODEL_BASE_PATH}/${MODEL_NAME} \
+"$@"' > /usr/bin/tf_serving_entrypoint.sh \
+&& chmod +x /usr/bin/tf_serving_entrypoint.sh
 
-
-EXPOSE 8000
-
-ENTRYPOINT python runner.py --env prod
+ENTRYPOINT ["/usr/bin/tf_serving_entrypoint.sh"]

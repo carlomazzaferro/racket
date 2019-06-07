@@ -1,6 +1,6 @@
 import json
 
-import tensorflow.keras.backend as K
+import tensorflow.python.keras.backend as K
 from tensorflow.python.client.session import Session
 
 from racket.models.serializers.t import TFSerializerBase, TFSerializer
@@ -23,4 +23,4 @@ class KerasSerializer(TFSerializerBase):
 
     def store_history(self):
         with open(self.keras_history, 'w') as history:
-            json.dump(self.model.history.history, history)
+            json.dump(str(self.model.history.history), history)
