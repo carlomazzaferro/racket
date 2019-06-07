@@ -4,9 +4,9 @@ import os
 import numpy
 import pytest
 import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras.layers import Dense
-from tensorflow.keras.losses import mse
+from tensorflow.python.keras import Sequential
+from tensorflow.python.keras.layers import Dense
+from tensorflow.python.keras.losses import mse
 
 from racket import KerasLearner
 from racket.managers.project import ProjectManager
