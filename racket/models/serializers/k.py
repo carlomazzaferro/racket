@@ -1,6 +1,6 @@
 import json
 
-import tensorflow.python.keras.backend as K
+import tensorflow.keras.backend as K
 from tensorflow.python.client.session import Session
 
 from racket.models.serializers.t import TFSerializerBase, TFSerializer
