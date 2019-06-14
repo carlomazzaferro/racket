@@ -1,5 +1,5 @@
 tensorflow<2,>=1.12.1
-tensorflow-serving-api==1.11.1
+tensorflow-serving-api==1.13.0
 grpcio==1.16.0
 Flask==1.0.2
 flask-restplus==0.12.1
