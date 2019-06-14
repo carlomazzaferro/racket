@@ -1,8 +1,6 @@
-import {routeList, user} from "./utils/config";
+import {config, routeList, user} from "./utils/config";
 import React, {Fragment, PureComponent} from 'react'
 import {BackTop, Layout} from 'antd'
-import {GlobalFooter} from 'ant-design-pro'
-import {config} from './utils/config'
 import './index.less'
 import Sider from "./components/Sider/Sider";
 import Header from "./components/Header/Header";
@@ -72,10 +70,10 @@ class App extends PureComponent {
                             className="backTop"
                             target={() => document.querySelector('#primaryLayout')}
                         />
-                        <GlobalFooter
-                            className="footer"
-                            copyright={config.copyright}
-                        />
+                        <Layout.Footer style={{textAlign: 'center'}} className="footer">
+                            {config.copyright}
+                        </Layout.Footer>
+
                     </div>
                 </Layout>
             </Fragment>
