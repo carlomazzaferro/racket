@@ -49,8 +49,9 @@ class ServerManager(ProjectManager):
                     template_folder=cls.template_files_dir() if not env == 'test' else None
                     )
 
-        @app.route('/')
-        def index():
+        @app.route('/', defaults={'path': ''})
+        @app.route('/<path:path>')
+        def index(path):
             return send_from_directory(cls.template_files_dir(), "index.html")
 
         app.config.from_object(config_by_name[env])

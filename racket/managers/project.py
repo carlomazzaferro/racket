@@ -66,7 +66,7 @@ class ProjectManager(BaseConfigManager):
 
         asset_manifest = WEB_MANIFEST['assets']
         data = pkgutil.get_data('racket', asset_manifest)
-        extras = json.loads(data, encoding='utf-8').values()
+        extras = json.loads(data, encoding='utf-8')['files'].values()
         for f in extras:
             real_path = os.path.join('template/web', f[1:])
             data = pkgutil.get_data('racket', real_path)
